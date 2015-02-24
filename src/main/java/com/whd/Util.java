@@ -7,10 +7,6 @@ import java.io.IOException;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 import org.apache.http.HttpStatus;
 
-/**
- *
- * @author vikramp
- */
 public class Util {
     
     public static final String whdUrn = "/helpdesk/WebObjects/Helpdesk.woa/ra/{resource_type}";

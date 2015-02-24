@@ -24,10 +24,6 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author vikramp
- */
 public class WhdApi {
     private static final Logger logger = LoggerFactory.getLogger(WhdApi.class);
     

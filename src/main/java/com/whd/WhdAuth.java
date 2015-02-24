@@ -12,10 +12,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author vikramp
- */
 public class WhdAuth {
     private static final Logger logger = LoggerFactory.getLogger(WhdAuth.class);
     
@@ -65,6 +61,29 @@ public class WhdAuth {
         }
     }
     
+    public void authenticate(String token) throws WhdException{
+        logger.debug("authenticate()");
+        
+        logger.debug("WHD URL: {}", whdUrl);
+                
+        switch (authType){
+            case SESSION_KEY:
+                this.sessionKey = getSessionKey(username, token);
+                break;
+            case PASSWORD:
+                if (token != null)
+                    this.password = token;
+                getSessionKey(username, password); // Don't save the session key, but verify credentials
+                break;
+            case API_KEY:
+            default:
+                // Do nothing
+                logger.debug("");
+                break;
+        }
+        logger.debug("Authenticated!");
+    }
+    
     /**
      * sends POST to WHD with username and password to obtain SessionKey
      *  Note: session key will be store in private variable.
@@ -74,11 +93,7 @@ public class WhdAuth {
         logger.debug("authenticate()");
         
         logger.debug("WHD URL: {}", whdUrl);
-        
-        HashMap<String, String> getVars = new HashMap<>();
-        getVars.put("username", username);
-        getVars.put("password", password);
-        
+                
         switch (authType){
             case SESSION_KEY:
                 this.sessionKey = getSessionKey(username, password);
@@ -92,7 +107,6 @@ public class WhdAuth {
                 logger.debug("");
                 break;
         }
-            
         logger.debug("Authenticated!");
     }
     
