@@ -5,7 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.whd.Util.WHD_AUTH_TYPE;
-import com.whd.autogen.session.Session;
+import com.whd.autogen.Session;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

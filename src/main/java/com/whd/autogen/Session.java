@@ -1,5 +1,5 @@
 
-package com.whd.autogen.session;
+package com.whd.autogen;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
