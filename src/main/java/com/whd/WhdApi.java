@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequestWithBody;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import com.whd.autogen.CustomFieldDefinition;
 import com.whd.autogen.LocationDefinition;
 import com.whd.autogen.PriorityTypeDefinition;
@@ -142,7 +143,34 @@ public class WhdApi {
         }
     }
     
-        public void addNote(WhdAuth auth, Integer ticketId, String noteText) throws WhdException{
+    /**
+     *
+     * @param auth
+     * @param id - This is attachment id
+     * @return
+     * @throws WhdException
+     */
+    public String getAttachment(WhdAuth auth, Integer id) throws WhdException{
+        String attachment64;
+        try{
+            HttpResponse<String> resp = Unirest.get(auth.getWhdUrl()+"/{attachment_id}")
+                    .header("accept", "application/octet")
+                    .routeParam("resource_type", "TicketAttachments")
+                    .routeParam("attachment_id", String.format("%d",id))
+                    .queryString(auth.generateAuthUrlParams())
+                    .asString();
+            
+            // Convert String to base64
+            attachment64 = Base64.encode(resp.getBody().getBytes());
+        }
+        catch(UnirestException e){
+            throw new WhdException("Error getting Ticket: "+e.getMessage(), e);
+        }
+        
+        return attachment64;
+    }
+    
+    public void addNote(WhdAuth auth, Integer ticketId, String noteText) throws WhdException{
         try {
             WhdNote note = new WhdNote();
             Jobticket jt = new Jobticket();
