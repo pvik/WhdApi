@@ -26,15 +26,20 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 
-test {
-    useJUnit {
-        includeCategories 'com.whd.test.UnitTest'
-    }
+//test {
+//    useJUnit {
+//        includeCategories 'com.whd.test.AuthUnitTest'
+//    }
+//}
+
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Test.class" // whatever Ant pattern matches your test class files
 }
 
 // extra config just to see that the tests run in the right tasks
 tasks.withType(Test) {
     testLogging {
-        events 'passed'
+        events 'started', 'passed'
     }
 }
