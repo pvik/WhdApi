@@ -26,15 +26,15 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 
-//test {
-//    useJUnit {
-//        includeCategories 'com.whd.test.UnitTest'
-//    }
-//}
-//
-//// extra config just to see that the tests run in the right tasks
-//tasks.withType(Test) {
-//    testLogging {
-//        events 'passed'
-//    }
-//}
+test {
+    useJUnit {
+        includeCategories 'com.whd.test.UnitTest'
+    }
+}
+
+// extra config just to see that the tests run in the right tasks
+tasks.withType(Test) {
+    testLogging {
+        events 'passed'
+    }
+}
