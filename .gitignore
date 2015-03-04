@@ -1,2 +1,3 @@
 .gradle
 /.nb-gradle/private/
+/src/test/java/com/whd/test/TestDetails.java
