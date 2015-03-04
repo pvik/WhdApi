@@ -5,7 +5,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequestWithBody;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import com.whd.autogen.CustomFieldDefinition;
 import com.whd.autogen.LocationDefinition;
 import com.whd.autogen.PriorityTypeDefinition;
@@ -28,12 +27,12 @@ import org.slf4j.LoggerFactory;
 public class WhdApi {
     private static final Logger logger = LoggerFactory.getLogger(WhdApi.class);
     
-    public WhdTicket createUpdateTicket (WhdTicket ticket){
+    public static WhdTicket createUpdateTicket (WhdTicket ticket){
         logger.debug("createUpdateTicket(WhdTicket)");
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public WhdTicket createTicket (WhdAuth auth, WhdTicket ticket) throws WhdException{
+    public static WhdTicket createTicket (WhdAuth auth, WhdTicket ticket) throws WhdException{
         logger.debug("createTicket(WhdTicket)");
         
         WhdTicket respTicket = null;
@@ -61,7 +60,7 @@ public class WhdApi {
         return respTicket;
     }
     
-    public void updateTicket (WhdAuth auth, WhdTicket ticket) throws WhdException{
+    public static void updateTicket (WhdAuth auth, WhdTicket ticket) throws WhdException{
         logger.debug("updateTicket(WhdTicket)");
         
         String ticketId = String.format("%d", ticket.getId());
@@ -91,7 +90,7 @@ public class WhdApi {
         }
     }
     
-    public WhdTicket getTicket(WhdAuth auth, Integer ticketId) throws WhdException{
+    public static WhdTicket getTicket(WhdAuth auth, Integer ticketId) throws WhdException{
         try{            
             HttpResponse<String> resp = Unirest.get(auth.getWhdUrl()+"/{ticket_id}")
                     .header("accept", "application/json")
@@ -112,7 +111,7 @@ public class WhdApi {
         }
     }
     
-    public List<WhdTicket> getTickets(WhdAuth auth, String qualifier) throws WhdException{
+    public static List<WhdTicket> getTickets(WhdAuth auth, String qualifier) throws WhdException{
         List<WhdTicket> tickets = new ArrayList<>();
         try{
             HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
@@ -150,8 +149,7 @@ public class WhdApi {
      * @return
      * @throws WhdException
      */
-    public String getAttachment(WhdAuth auth, Integer id) throws WhdException{
-        String attachment64;
+    public static byte[] getAttachment(WhdAuth auth, Integer id) throws WhdException{
         try{
             HttpResponse<String> resp = Unirest.get(auth.getWhdUrl()+"/{attachment_id}")
                     .header("accept", "application/octet")
@@ -160,17 +158,14 @@ public class WhdApi {
                     .queryString(auth.generateAuthUrlParams())
                     .asString();
             
-            // Convert String to base64
-            attachment64 = Base64.encode(resp.getBody().getBytes());
+            return resp.getBody().getBytes();
         }
         catch(UnirestException e){
             throw new WhdException("Error getting Ticket: "+e.getMessage(), e);
         }
-        
-        return attachment64;
     }
     
-    public void addNote(WhdAuth auth, Integer ticketId, String noteText) throws WhdException{
+    public static void addNote(WhdAuth auth, Integer ticketId, String noteText) throws WhdException{
         try {
             WhdNote note = new WhdNote();
             Jobticket jt = new Jobticket();
@@ -202,7 +197,7 @@ public class WhdApi {
         }
     }
     
-    public WhdTicket parseCustomFieldList(WhdTicket ticket){
+    public static WhdTicket parseCustomFieldList(WhdTicket ticket){
         List<TicketCustomField> customFieldList = ticket.getTicketCustomFields();
         
         if(customFieldList != null){
@@ -229,7 +224,7 @@ public class WhdApi {
         return ticket;
     }
     
-    public WhdTicket populateCustomFieldsList(WhdTicket ticket){
+    public static WhdTicket populateCustomFieldsList(WhdTicket ticket){
         List<TicketCustomField> customFieldList = ticket.getTicketCustomFields();
         
         if(customFieldList != null){
@@ -266,7 +261,7 @@ public class WhdApi {
         return ticket;
     }
     
-    public WhdTicket populateLocationObject(WhdTicket ticket){
+    public static WhdTicket populateLocationObject(WhdTicket ticket){
         if(ticket.getLocationId() != null){
             Location loc = new Location();
             loc.setType("Location");
@@ -276,7 +271,7 @@ public class WhdApi {
         return ticket;
     }
     
-    public String getCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName) throws WhdException{
+    public static String getCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName) throws WhdException{
         logger.debug("Getting Custom field for field name: {}", customFieldName);
         try {
             String custFieldId;
@@ -297,7 +292,7 @@ public class WhdApi {
         }
     }
     
-    public void setCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException{
+    public static void setCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException{
         logger.debug("Getting Custom field for field name: {}", customFieldName);
         try {
             String custFieldId;
@@ -318,7 +313,7 @@ public class WhdApi {
         }
     }
     
-    public List<RequestTypeDefinition> getRequestTypeDefinitions(WhdAuth auth) throws WhdException{
+    public static List<RequestTypeDefinition> getRequestTypeDefinitions(WhdAuth auth) throws WhdException{
         List<RequestTypeDefinition> requestTypeDefinitions = null;
         try{  
         HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
@@ -346,7 +341,7 @@ public class WhdApi {
         return requestTypeDefinitions;
     }
     
-    public List<LocationDefinition> getLocations(WhdAuth auth) throws WhdException{
+    public static List<LocationDefinition> getLocations(WhdAuth auth) throws WhdException{
         List<LocationDefinition> defs = null;
         
         try{  
@@ -375,7 +370,7 @@ public class WhdApi {
         return defs;
     }
     
-    public List<StatusTypeDefinition> getStatusTypeDefinitions(WhdAuth auth) throws WhdException{
+    public static List<StatusTypeDefinition> getStatusTypeDefinitions(WhdAuth auth) throws WhdException{
         List<StatusTypeDefinition> defs = null;
         
         try{  
@@ -404,7 +399,7 @@ public class WhdApi {
         return defs;
     }
     
-    public List<PriorityTypeDefinition> getPriorityTypeDefinitions(WhdAuth auth) throws WhdException{
+    public static List<PriorityTypeDefinition> getPriorityTypeDefinitions(WhdAuth auth) throws WhdException{
         List<PriorityTypeDefinition> defs = null;
         
         try{  
@@ -433,7 +428,7 @@ public class WhdApi {
         return defs;
     }
     
-    public List<CustomFieldDefinition> getCustomFieldDefinitions(WhdAuth auth) throws WhdException{
+    public static List<CustomFieldDefinition> getCustomFieldDefinitions(WhdAuth auth) throws WhdException{
         List<CustomFieldDefinition> defs = null;
         
         try{  
