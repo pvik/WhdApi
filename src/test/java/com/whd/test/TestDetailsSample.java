@@ -4,4 +4,5 @@ public class TestDetailsSample {
     static final String whdUri = "";
     static final String username = "";
     static final String password = "";
+    static final String apiKey = "";
 }
