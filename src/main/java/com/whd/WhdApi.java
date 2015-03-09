@@ -341,35 +341,6 @@ public class WhdApi {
         return requestTypeDefinitions;
     }
     
-    public static List<LocationDefinition> getLocations(WhdAuth auth) throws WhdException{
-        List<LocationDefinition> defs = null;
-        
-        try{  
-        HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
-                .header("accept", "application/json")
-                .routeParam("resource_type", "Locations")
-                .queryString(auth.generateAuthUrlParams())
-                .queryString("list", "all")
-                .asString();
-            
-            Util.processResponseForException(resp);
-            
-              
-            defs = Util.jsonMapper.readValue(resp.getBody(),
-                    Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, LocationDefinition.class));
-                        
-            logger.debug("Retreived Locations");
-        }
-        catch(UnirestException e){
-            throw new WhdException("Error getting Request Type Definitions: "+e.getMessage(), e);
-        }
-        catch(IOException e){
-            throw Util.processJsonMapperIOException(e);
-        }
-        
-        return defs;
-    }
-    
     public static List<StatusTypeDefinition> getStatusTypeDefinitions(WhdAuth auth) throws WhdException{
         List<StatusTypeDefinition> defs = null;
         
@@ -411,7 +382,6 @@ public class WhdApi {
                 .asString();
             
             Util.processResponseForException(resp);
-            
               
             defs = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, PriorityTypeDefinition.class));
@@ -456,4 +426,64 @@ public class WhdApi {
         
         return defs;
     }
+
+    
+    // Location related functions
+    
+    public static void createLocation(LocationDefinition location){
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    public static List<LocationDefinition> getLocationList(WhdAuth auth) throws WhdException{
+        List<LocationDefinition> defs = null;
+        
+        try{  
+        HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
+                .header("accept", "application/json")
+                .routeParam("resource_type", "Locations")
+                .queryString(auth.generateAuthUrlParams())
+                .queryString("list", "all")
+                .asString();
+            
+            Util.processResponseForException(resp);
+            
+              
+            defs = Util.jsonMapper.readValue(resp.getBody(),
+                    Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, LocationDefinition.class));
+                        
+            logger.debug("Retreived Locations");
+        }
+        catch(UnirestException e){
+            throw new WhdException("Error getting Request Type Definitions: "+e.getMessage(), e);
+        }
+        catch(IOException e){
+            throw Util.processJsonMapperIOException(e);
+        }
+        return defs;
+    }
+    
+    public static LocationDefinition getLocation(int locationId) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    public static List<LocationDefinition> searchLocations(String qualifier, boolean includeDeleted) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    public static List<LocationDefinition> searchLocationsIncludeDeleted(String qualifier) {
+        return searchLocations(qualifier, true);  
+    }
+    
+    public static List<LocationDefinition> searchLocationsExcludeDeleted(String qualifier) {
+        return searchLocations(qualifier, false); 
+    }
+    
+    public static void updateLocation(LocationDefinition location){
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    public static void deleteLocation(LocationDefinition location){
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
 }
