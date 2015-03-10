@@ -489,15 +489,46 @@ public class WhdApi {
         return defs;
     }
     
-    public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier, boolean includeDeleted) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier) throws WhdException {
+        List<LocationDefinition> defs = null;
+        
+        try{  
+        HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
+                .header("accept", "application/json")
+                .routeParam("resource_type", "Locations")
+                .queryString(auth.generateAuthUrlParams())
+                .queryString("qualifier", qualifier)
+                .asString();
+            
+            Util.processResponseForException(resp);
+            
+              
+            defs = Util.jsonMapper.readValue(resp.getBody(),
+                    Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, LocationDefinition.class));
+                        
+            logger.debug("Retreived Locations");
+        }
+        catch(UnirestException e){
+            throw new WhdException("Error getting Request Type Definitions: "+e.getMessage(), e);
+        }
+        catch(IOException e){
+            throw Util.processJsonMapperIOException(e);
+        }
+        return defs;
     }
     
-    public static List<LocationDefinition> searchLocationsIncludeDeleted(WhdAuth auth, String qualifier) {
+    public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier, boolean includeDeleted) throws WhdException {
+        if (includeDeleted){
+            qualifier = "(((deleted %3D null) or (deleted %3D 0) or (deleted %3D 1)) and " + qualifier + ")";
+        }
+        return searchLocations(auth, qualifier); 
+    }
+    
+    public static List<LocationDefinition> searchLocationsIncludeDeleted(WhdAuth auth, String qualifier) throws WhdException {
         return searchLocations(auth, qualifier, true);  
     }
     
-    public static List<LocationDefinition> searchLocationsExcludeDeleted(WhdAuth auth, String qualifier) {
+    public static List<LocationDefinition> searchLocationsExcludeDeleted(WhdAuth auth, String qualifier) throws WhdException {
         return searchLocations(auth, qualifier, false); 
     }
     
