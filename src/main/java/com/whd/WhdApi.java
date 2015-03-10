@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -565,7 +566,7 @@ public class WhdApi {
             
             HttpResponse<String> resp = Unirest.put(auth.getWhdUrl()+"/{location_id}")
                     .header("accept", "application/json")
-                    .routeParam("resource_type", "Ticket")
+                    .routeParam("resource_type", "Locations")
                     .routeParam("location_id", locationId)
                     .queryString(auth.generateAuthUrlParams())
                     .body(jsonLocationStream)
@@ -581,8 +582,34 @@ public class WhdApi {
         }
     }
     
-    public static void deleteLocation(WhdAuth auth, LocationDefinition location){
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public static void deleteLocation(WhdAuth auth, LocationDefinition location) throws WhdException{
+        try{
+            String locationId = String.format("%d", location.getId());
+            logger.debug("updateLocation(<LocationDefinition;id={}>)", locationId);
+            
+            String jsonLocationStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(location);
+            
+            HttpResponse<String> resp = Unirest.delete(auth.getWhdUrl()+"/{location_id}")
+                    .header("accept", "application/json")
+                    .routeParam("resource_type", "Locations")
+                    .routeParam("location_id", locationId)
+                    .queryString(auth.generateAuthUrlParams())
+                    .asString();
+            
+            Util.processResponseForException(resp);
+            
+            LocationDefinition loc = Util.jsonMapper.readValue(resp.getBody(), LocationDefinition.class);
+            
+            if(!Objects.equals(loc.getId(), location.getId())){
+                throw new WhdException("Did not receive confirmation for Location Deletion from WHD");
+            }
+        }
+        catch(UnirestException e){
+            throw new WhdException("Error Creating Ticket: "+e.getMessage(), e);
+        }
+        catch(IOException e){
+            throw Util.processJsonMapperIOException(e);
+        }
     }
     
 }
