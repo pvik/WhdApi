@@ -462,27 +462,50 @@ public class WhdApi {
         return defs;
     }
     
-    public static LocationDefinition getLocation(int locationId) {
+    public static LocationDefinition getLocation(WhdAuth auth, int locationId) throws WhdException{
+        LocationDefinition defs = null;
+        
+        try{  
+        HttpResponse<String> resp = Unirest.get(auth.getWhdUrl()+"/{location_id}")
+                .header("accept", "application/json")
+                .routeParam("resource_type", "Locations")
+                .routeParam("location_id", String.format("%d", locationId))
+                .queryString(auth.generateAuthUrlParams())
+                .queryString("list", "all")
+                .asString();
+            
+            Util.processResponseForException(resp);
+                        
+            defs = Util.jsonMapper.readValue(resp.getBody(), LocationDefinition.class);;
+            
+            logger.debug("Retreived Locations");
+        }
+        catch(UnirestException e){
+            throw new WhdException("Error getting Location Definition: "+e.getMessage(), e);
+        }
+        catch(IOException e){
+            throw Util.processJsonMapperIOException(e);
+        }
+        return defs;
+    }
+    
+    public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier, boolean includeDeleted) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
     
-    public static List<LocationDefinition> searchLocations(String qualifier, boolean includeDeleted) {
+    public static List<LocationDefinition> searchLocationsIncludeDeleted(WhdAuth auth, String qualifier) {
+        return searchLocations(auth, qualifier, true);  
+    }
+    
+    public static List<LocationDefinition> searchLocationsExcludeDeleted(WhdAuth auth, String qualifier) {
+        return searchLocations(auth, qualifier, false); 
+    }
+    
+    public static void updateLocation(WhdAuth auth, LocationDefinition location){
         throw new UnsupportedOperationException("Not supported yet."); 
     }
     
-    public static List<LocationDefinition> searchLocationsIncludeDeleted(String qualifier) {
-        return searchLocations(qualifier, true);  
-    }
-    
-    public static List<LocationDefinition> searchLocationsExcludeDeleted(String qualifier) {
-        return searchLocations(qualifier, false); 
-    }
-    
-    public static void updateLocation(LocationDefinition location){
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-    
-    public static void deleteLocation(LocationDefinition location){
+    public static void deleteLocation(WhdAuth auth, LocationDefinition location){
         throw new UnsupportedOperationException("Not supported yet."); 
     }
     
