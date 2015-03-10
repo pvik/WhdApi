@@ -430,8 +430,32 @@ public class WhdApi {
     
     // Location related functions
     
-    public static void createLocation(LocationDefinition location){
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public static LocationDefinition createLocation(WhdAuth auth, LocationDefinition location) throws WhdException{
+        logger.debug("createLocation(LocationDefinition)");
+        
+        LocationDefinition newLoc = null;
+        try{
+            String jsonTicketStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(location);
+            
+            HttpResponse<String> resp = Unirest.put(auth.getWhdUrl()+"/{ticket_id}")
+                    .header("accept", "application/json")
+                    .routeParam("resource_type", "Locations")
+                    .queryString(auth.generateAuthUrlParams())
+                    .body(jsonTicketStream)
+                    .asString();
+            
+            Util.processResponseForException(resp);
+            
+            newLoc = Util.jsonMapper.readValue(resp.getBody(), LocationDefinition.class);
+        }
+        catch(UnirestException e){
+            throw new WhdException("Error Updating Ticket: "+e.getMessage(), e);
+        }
+        catch(IOException e){
+            throw Util.processJsonMapperIOException(e);
+        }
+        
+        return newLoc;
     }
     
     public static List<LocationDefinition> getLocationList(WhdAuth auth) throws WhdException{
@@ -533,16 +557,16 @@ public class WhdApi {
     }
     
     public static void updateLocation(WhdAuth auth, LocationDefinition location) throws WhdException{
-        logger.debug("updateLocation(LocationDefinition)");
-        
         try{
+            String locationId = String.format("%d", location.getId());
+            logger.debug("updateLocation(<LocationDefinition;id={}>)", locationId);
             
             String jsonLocationStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(location);
             
             HttpResponse<String> resp = Unirest.put(auth.getWhdUrl()+"/{location_id}")
                     .header("accept", "application/json")
                     .routeParam("resource_type", "Ticket")
-                    .routeParam("location_id", String.format("%d", location.getId()))
+                    .routeParam("location_id", locationId)
                     .queryString(auth.generateAuthUrlParams())
                     .body(jsonLocationStream)
                     .asString();
