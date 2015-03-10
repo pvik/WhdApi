@@ -532,8 +532,29 @@ public class WhdApi {
         return searchLocations(auth, qualifier, false); 
     }
     
-    public static void updateLocation(WhdAuth auth, LocationDefinition location){
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public static void updateLocation(WhdAuth auth, LocationDefinition location) throws WhdException{
+        logger.debug("updateLocation(LocationDefinition)");
+        
+        try{
+            
+            String jsonLocationStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(location);
+            
+            HttpResponse<String> resp = Unirest.put(auth.getWhdUrl()+"/{location_id}")
+                    .header("accept", "application/json")
+                    .routeParam("resource_type", "Ticket")
+                    .routeParam("location_id", String.format("%d", location.getId()))
+                    .queryString(auth.generateAuthUrlParams())
+                    .body(jsonLocationStream)
+                    .asString();
+            
+            Util.processResponseForException(resp);
+        }
+        catch(UnirestException e){
+            throw new WhdException("Error Creating Ticket: "+e.getMessage(), e);
+        }
+        catch(IOException e){
+            throw Util.processJsonMapperIOException(e);
+        }
     }
     
     public static void deleteLocation(WhdAuth auth, LocationDefinition location){
