@@ -1,3 +1,4 @@
 .gradle
-/.nb-gradle/private/
-/src/test/java/com/whd/test/TestDetails.java
+build/
+.nb-gradle/private/
+src/test/java/com/whd/test/TestDetails.java
