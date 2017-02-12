@@ -16,11 +16,17 @@ repositories {
 
 dependencies {
     compile (
+            // json processing
             'com.fasterxml.jackson.core:jackson-core:2.8.6',
             'com.fasterxml.jackson.core:jackson-annotations:2.8.6',
             'com.fasterxml.jackson.core:jackson-databind:2.8.6',
+
+            // http transactions
             'com.mashape.unirest:unirest-java:1.4.9',
+
             'org.apache.commons:commons-lang3:3.5',
+
+            // logging
             'org.slf4j:slf4j-api:1.7.22',
             'ch.qos.logback:logback-core:1.1.10',
             'ch.qos.logback:logback-classic:1.1.10')
