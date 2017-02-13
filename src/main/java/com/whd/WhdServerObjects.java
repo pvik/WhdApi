@@ -1,8 +1,8 @@
 package com.whd;
 
-import com.whd.so.WhdLocations;
-import com.whd.so.WhdPriority;
-import com.whd.so.WhdRequestType;
+import com.whd.serverobject.WhdLocations;
+import com.whd.serverobject.WhdPriority;
+import com.whd.serverobject.WhdRequestType;
 
 import java.util.List;
 

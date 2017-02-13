@@ -1,4 +1,4 @@
-package com.whd.so;
+package com.whd.serverobject;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
