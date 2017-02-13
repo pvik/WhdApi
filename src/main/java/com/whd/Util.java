@@ -14,7 +14,7 @@ public class Util {
     public static final ObjectMapper jsonMapper = new ObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT);
     
-    public enum WHD_AUTH_TYPE {PASSWORD, SESSION_KEY, API_KEY};
+    public enum WhdAuthType {PASSWORD, SESSION_KEY, API_KEY};
     
     /**
      *

@@ -4,7 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.whd.Util.WHD_AUTH_TYPE;
+import com.whd.Util.WhdAuthType;
 import com.whd.autogen.Session;
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class WhdAuth {
     private String sessionKey;
     private String apiKey;
     
-    private WHD_AUTH_TYPE authType;
+    private WhdAuthType authType;
     
     private String whdUrl;
     
@@ -40,7 +40,7 @@ public class WhdAuth {
      * @param username
      * @param token
      */
-    public WhdAuth(String uri, WHD_AUTH_TYPE type, String username, String token) {
+    public WhdAuth(String uri, WhdAuthType type, String username, String token) {
         this.whdUrl = uri+Util.whdUrn;
         this.username = username;
         
@@ -119,7 +119,7 @@ public class WhdAuth {
     public void close() {
         logger.debug("close()");
         
-        if(authType == WHD_AUTH_TYPE.SESSION_KEY){
+        if(authType == WhdAuthType.SESSION_KEY){
             logger.debug("using sessionkey, will try to deactivate it");
             HashMap<String, String> getVars = new HashMap<>();
             getVars.put("sessionKey", sessionKey);
