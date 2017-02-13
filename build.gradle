@@ -24,6 +24,9 @@ dependencies {
             // http transactions
             'com.mashape.unirest:unirest-java:1.4.9',
 
+            // guava collections
+            'com.google.guava:guava:21.0',
+
             'org.apache.commons:commons-lang3:3.5',
 
             // logging
