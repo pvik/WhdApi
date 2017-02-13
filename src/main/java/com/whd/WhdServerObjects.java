@@ -1,9 +1,6 @@
 package com.whd;
 
-import com.whd.serverobject.WhdLocations;
-import com.whd.serverobject.WhdPriority;
-import com.whd.serverobject.WhdRequestType;
-import com.whd.serverobject.WhdStatus;
+import com.whd.serverobject.*;
 
 import java.util.List;
 
@@ -16,6 +13,7 @@ public class WhdServerObjects {
     private final WhdPriority priority;
     private final WhdRequestType requestType;
     private final WhdStatus status;
+    private final WhdCustomFields customFields;
 
     public WhdServerObjects() throws WhdException {
         throw new WhdException("Invalid invocation of WhdServerObjects");
@@ -28,6 +26,7 @@ public class WhdServerObjects {
         this.priority = new WhdPriority(auth);
         this.requestType = new WhdRequestType(auth);
         this.status = new WhdStatus(auth);
+        this.customFields = new WhdCustomFields(auth);
     }
 
     public WhdServerObjects(WhdAuth auth, List<String> locationPrefixes)
@@ -37,6 +36,7 @@ public class WhdServerObjects {
         this.priority = new WhdPriority(auth);
         this.requestType = new WhdRequestType(auth);
         this.status = new WhdStatus(auth);
+        this.customFields = new WhdCustomFields(auth);
     }
 
     public WhdLocations getLocations() {
@@ -54,4 +54,6 @@ public class WhdServerObjects {
     public WhdStatus getStatus() {
         return status;
     }
+
+    public WhdCustomFields getCustomFields() { return customFields; }
 }
