@@ -29,15 +29,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WhdApi {
-    private static final Logger logger = LoggerFactory.getLogger(WhdApi.class);
+    private static final Logger log = LoggerFactory.getLogger(WhdApi.class);
 
     public static WhdTicket createUpdateTicket(WhdTicket ticket) {
-        logger.debug("createUpdateTicket(WhdTicket)");
+        log.debug("createUpdateTicket(WhdTicket)");
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public static WhdTicket createTicket(WhdAuth auth, WhdTicket ticket) throws WhdException {
-        logger.debug("createTicket(WhdTicket)");
+        log.debug("createTicket(WhdTicket)");
 
         WhdTicket respTicket = null;
         try {
@@ -63,7 +63,7 @@ public class WhdApi {
     }
 
     public static void updateTicket(WhdAuth auth, WhdTicket ticket) throws WhdException {
-        logger.debug("updateTicket(WhdTicket)");
+        log.debug("updateTicket(WhdTicket)");
 
         String ticketId = String.format("%d", ticket.getId());
 
@@ -80,7 +80,7 @@ public class WhdApi {
                     .body(jsonTicketStream)
                     .asString();
 
-            logger.debug("Sending PUT Message to: {}", httpRequest.getUrl());
+            log.debug("Sending PUT Message to: {}", httpRequest.getUrl());
 
             Util.processResponseForException(resp);
         } catch (UnirestException e) {
@@ -181,7 +181,7 @@ public class WhdApi {
 
             Util.processResponseForException(resp);
 
-            logger.debug("Response for creating Note {}", resp.getBody());
+            log.debug("Response for creating Note {}", resp.getBody());
         } catch (UnirestException e) {
             throw new WhdException("Error getting Ticket: " + e.getMessage(), e);
         } catch (IOException e) {
@@ -201,13 +201,13 @@ public class WhdApi {
                     Method setCustomFieldMethod = WhdTicket.class.getMethod(String.format("setCustomField%d", fieldId), String.class);
                     setCustomFieldMethod.invoke(ticket, val);
                 } catch (NoSuchMethodException ex) {
-                    logger.error("Unable to find set method for custom field id {}. Skipping custom field.", fieldId);
+                    log.error("Unable to find set method for custom field id {}. Skipping custom field.", fieldId);
                 } catch (SecurityException ex) {
-                    logger.error("Security Manager preventing from getting set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
+                    log.error("Security Manager preventing from getting set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
                 } catch (IllegalAccessException ex) {
-                    logger.error("IllegalAccessException on invoking set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
+                    log.error("IllegalAccessException on invoking set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
                 } catch (InvocationTargetException ex) {
-                    logger.error("Exception on invoking set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
+                    log.error("Exception on invoking set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
                 }
             }
         }
@@ -240,7 +240,7 @@ public class WhdApi {
 
                     customFieldList.add(customField);
                 } catch (Exception e) {
-                    logger.error("Exception getting customField attribute with method: {}\nStackTrace: {}", methodName, getStackTrace(e));
+                    log.error("Exception getting customField attribute with method: {}\nStackTrace: {}", methodName, getStackTrace(e));
                 }
             }
         }
@@ -260,7 +260,7 @@ public class WhdApi {
     }
 
     public static String getCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName) throws WhdException {
-        logger.debug("Getting Custom field for field name: {}", customFieldName);
+        log.debug("Getting Custom field for field name: {}", customFieldName);
         try {
             String custFieldId;
             if (whdCustomFields.fieldNameToId.containsKey(customFieldName))
@@ -268,20 +268,20 @@ public class WhdApi {
             else
                 throw new WhdException("Custom Field not present in WHD instance");
 
-            logger.debug("Field ID: {}", custFieldId);
+            log.debug("Field ID: {}", custFieldId);
 
             Method getCustFieldMethod = WhdTicket.class.getMethod("getCustomField" + custFieldId);
 
             return (String) getCustFieldMethod.invoke(ticket);
 
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            logger.error(getStackTrace(ex));
+            log.error(getStackTrace(ex));
             throw new WhdException(ex);
         }
     }
 
     public static void setCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException {
-        logger.debug("Getting Custom field for field name: {}", customFieldName);
+        log.debug("Getting Custom field for field name: {}", customFieldName);
         try {
             String custFieldId;
             if (whdCustomFields.fieldNameToId.containsKey(customFieldName))
@@ -289,14 +289,14 @@ public class WhdApi {
             else
                 throw new WhdException("Custom Field not present in WHD instance");
 
-            logger.debug("Field ID: {}", custFieldId);
+            log.debug("Field ID: {}", custFieldId);
 
             Method setCustFieldMethod = WhdTicket.class.getMethod("setCustomField" + custFieldId, String.class);
 
             setCustFieldMethod.invoke(ticket, fieldVal);
 
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            logger.error(getStackTrace(ex));
+            log.error(getStackTrace(ex));
             throw new WhdException(ex);
         }
     }
@@ -317,7 +317,7 @@ public class WhdApi {
             requestTypeDefinitions = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, RequestTypeDefinition.class));
 
-            logger.debug("Retreived Request Types");
+            log.debug("Retreived Request Types");
         } catch (UnirestException e) {
             throw new WhdException("Error getting Request Type Definitions: " + e.getMessage(), e);
         } catch (IOException e) {
@@ -344,7 +344,7 @@ public class WhdApi {
             defs = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, StatusTypeDefinition.class));
 
-            logger.debug("Retreived Status Types");
+            log.debug("Retreived Status Types");
         } catch (UnirestException e) {
             throw new WhdException("Error getting Request Type Definitions: " + e.getMessage(), e);
         } catch (IOException e) {
@@ -370,7 +370,7 @@ public class WhdApi {
             defs = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, PriorityTypeDefinition.class));
 
-            logger.debug("Retreived Priority Types");
+            log.debug("Retreived Priority Types");
         } catch (UnirestException e) {
             throw new WhdException("Error getting Request Type Definitions: " + e.getMessage(), e);
         } catch (IOException e) {
@@ -397,7 +397,7 @@ public class WhdApi {
             defs = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, CustomFieldDefinition.class));
 
-            logger.debug("Retreived Custom Field Definitions");
+            log.debug("Retreived Custom Field Definitions");
         } catch (UnirestException e) {
             throw new WhdException("Error getting Request Type Definitions: " + e.getMessage(), e);
         } catch (IOException e) {
@@ -411,7 +411,7 @@ public class WhdApi {
     // Location related functions
 
     public static LocationDefinition createLocation(WhdAuth auth, LocationDefinition location) throws WhdException {
-        logger.debug("createLocation(LocationDefinition)");
+        log.debug("createLocation(LocationDefinition)");
 
         LocationDefinition newLoc = null;
         try {
@@ -440,6 +440,8 @@ public class WhdApi {
         List<LocationDefinition> defs = null;
 
         try {
+            Unirest.setTimeouts(0,0);
+
             HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
                     .header("accept", "application/json")
                     .routeParam("resource_type", "Locations")
@@ -449,13 +451,12 @@ public class WhdApi {
 
             Util.processResponseForException(resp);
 
-
             defs = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, LocationDefinition.class));
 
-            logger.debug("Retreived Locations");
+            log.debug("Retreived Locations");
         } catch (UnirestException e) {
-            throw new WhdException("Error getting Request Type Definitions: " + e.getMessage(), e);
+            throw new WhdException("Error Location Type Definitions: " + e.getMessage(), e);
         } catch (IOException e) {
             throw Util.processJsonMapperIOException(e);
         }
@@ -479,7 +480,7 @@ public class WhdApi {
             defs = Util.jsonMapper.readValue(resp.getBody(), LocationDefinition.class);
             ;
 
-            logger.debug("Retreived Locations");
+            log.debug("Retreived Locations");
         } catch (UnirestException e) {
             throw new WhdException("Error getting Location Definition: " + e.getMessage(), e);
         } catch (IOException e) {
@@ -505,7 +506,7 @@ public class WhdApi {
             defs = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, LocationDefinition.class));
 
-            logger.debug("Retreived Locations");
+            log.debug("Retreived Locations");
         } catch (UnirestException e) {
             throw new WhdException("Error getting Request Type Definitions: " + e.getMessage(), e);
         } catch (IOException e) {
@@ -532,7 +533,7 @@ public class WhdApi {
     public static void updateLocation(WhdAuth auth, LocationDefinition location) throws WhdException {
         try {
             String locationId = String.format("%d", location.getId());
-            logger.debug("updateLocation(<LocationDefinition;id={}>)", locationId);
+            log.debug("updateLocation(<LocationDefinition;id={}>)", locationId);
 
             String jsonLocationStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(location);
 
@@ -555,7 +556,7 @@ public class WhdApi {
     public static void deleteLocation(WhdAuth auth, LocationDefinition location) throws WhdException {
         try {
             String locationId = String.format("%d", location.getId());
-            logger.debug("updateLocation(<LocationDefinition;id={}>)", locationId);
+            log.debug("updateLocation(<LocationDefinition;id={}>)", locationId);
 
             String jsonLocationStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(location);
 
