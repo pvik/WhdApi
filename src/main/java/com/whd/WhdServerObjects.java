@@ -2,6 +2,7 @@ package com.whd;
 
 import com.whd.so.WhdLocations;
 import com.whd.so.WhdPriority;
+import com.whd.so.WhdRequestType;
 
 import java.util.List;
 
@@ -11,7 +12,8 @@ import java.util.List;
 public class WhdServerObjects {
 
     private final WhdLocations locations;
-    private final WhdPriority whdPriority;
+    private final WhdPriority priority;
+    private final WhdRequestType requestType;
 
     public WhdServerObjects() throws WhdException {
         throw new WhdException("Invalid invocation of WhdServerObjects");
@@ -21,14 +23,16 @@ public class WhdServerObjects {
             throws WhdException {
         this.locations = new WhdLocations(auth);
 
-        this.whdPriority = new WhdPriority(auth);
+        this.priority = new WhdPriority(auth);
+        this.requestType = new WhdRequestType(auth);
     }
 
     public WhdServerObjects(WhdAuth auth, List<String> locationPrefixes)
             throws WhdException {
         this.locations = new WhdLocations(auth, locationPrefixes);
 
-        this.whdPriority = new WhdPriority(auth);
+        this.priority = new WhdPriority(auth);
+        this.requestType = new WhdRequestType(auth);
     }
 
     public WhdLocations getLocations() {
@@ -36,6 +40,10 @@ public class WhdServerObjects {
     }
 
     public WhdPriority getPriority() {
-        return whdPriority;
+        return priority;
+    }
+
+    public WhdRequestType getRequestType() {
+        return requestType;
     }
 }
