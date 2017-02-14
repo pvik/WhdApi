@@ -259,48 +259,6 @@ public class WhdApi {
         return ticket;
     }
 
-    public static String getCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName) throws WhdException {
-        log.debug("Getting Custom field for field name: {}", customFieldName);
-        try {
-            String custFieldId;
-            if (whdCustomFields.fieldNameToId.containsKey(customFieldName))
-                custFieldId = whdCustomFields.fieldNameToId.get(customFieldName.replace(" ", ""));
-            else
-                throw new WhdException("Custom Field not present in WHD instance");
-
-            log.debug("Field ID: {}", custFieldId);
-
-            Method getCustFieldMethod = WhdTicket.class.getMethod("getCustomField" + custFieldId);
-
-            return (String) getCustFieldMethod.invoke(ticket);
-
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            log.error(getStackTrace(ex));
-            throw new WhdException(ex);
-        }
-    }
-
-    public static void setCustomField(WhdCustomFields whdCustomFields, WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException {
-        log.debug("Getting Custom field for field name: {}", customFieldName);
-        try {
-            String custFieldId;
-            if (whdCustomFields.fieldNameToId.containsKey(customFieldName))
-                custFieldId = whdCustomFields.fieldNameToId.get(customFieldName.replace(" ", ""));
-            else
-                throw new WhdException("Custom Field not present in WHD instance");
-
-            log.debug("Field ID: {}", custFieldId);
-
-            Method setCustFieldMethod = WhdTicket.class.getMethod("setCustomField" + custFieldId, String.class);
-
-            setCustFieldMethod.invoke(ticket, fieldVal);
-
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            log.error(getStackTrace(ex));
-            throw new WhdException(ex);
-        }
-    }
-
     public static List<RequestTypeDefinition> getRequestTypeDefinitions(WhdAuth auth) throws WhdException {
         List<RequestTypeDefinition> requestTypeDefinitions = null;
         try {
