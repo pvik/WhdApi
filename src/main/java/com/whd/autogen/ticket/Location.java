@@ -1,23 +1,22 @@
 
 package com.whd.autogen.ticket;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "type",
@@ -29,7 +28,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "priorityTypes",
     "defaultPriorityTypeId"
 })
-public class Location {
+public class Location implements Serializable
+{
 
     @JsonProperty("id")
     private Integer id;
@@ -51,182 +51,125 @@ public class Location {
     private Integer defaultPriorityTypeId;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final static long serialVersionUID = -3153781237621026958L;
 
     /**
+     * No args constructor for use in serialization
      * 
-     * @return
-     *     The id
      */
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * 
-     * @return
-     *     The type
-     */
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * 
-     * @param type
-     *     The type
-     */
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The address
-     */
-    @JsonProperty("address")
-    public String getAddress() {
-        return address;
+    public Location() {
     }
 
     /**
      * 
      * @param address
-     *     The address
+     * @param locationName
+     * @param defaultPriorityTypeId
+     * @param city
+     * @param postalCode
+     * @param id
+     * @param state
+     * @param priorityTypes
+     * @param type
      */
+    public Location(Integer id, String type, String address, String city, String locationName, String postalCode, String state, List<Object> priorityTypes, Integer defaultPriorityTypeId) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.address = address;
+        this.city = city;
+        this.locationName = locationName;
+        this.postalCode = postalCode;
+        this.state = state;
+        this.priorityTypes = priorityTypes;
+        this.defaultPriorityTypeId = defaultPriorityTypeId;
+    }
+
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("address")
+    public String getAddress() {
+        return address;
+    }
+
     @JsonProperty("address")
     public void setAddress(String address) {
         this.address = address;
     }
 
-    /**
-     * 
-     * @return
-     *     The city
-     */
     @JsonProperty("city")
     public String getCity() {
         return city;
     }
 
-    /**
-     * 
-     * @param city
-     *     The city
-     */
     @JsonProperty("city")
     public void setCity(String city) {
         this.city = city;
     }
 
-    /**
-     * 
-     * @return
-     *     The locationName
-     */
     @JsonProperty("locationName")
     public String getLocationName() {
         return locationName;
     }
 
-    /**
-     * 
-     * @param locationName
-     *     The locationName
-     */
     @JsonProperty("locationName")
     public void setLocationName(String locationName) {
         this.locationName = locationName;
     }
 
-    /**
-     * 
-     * @return
-     *     The postalCode
-     */
     @JsonProperty("postalCode")
     public String getPostalCode() {
         return postalCode;
     }
 
-    /**
-     * 
-     * @param postalCode
-     *     The postalCode
-     */
     @JsonProperty("postalCode")
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-    /**
-     * 
-     * @return
-     *     The state
-     */
     @JsonProperty("state")
     public String getState() {
         return state;
     }
 
-    /**
-     * 
-     * @param state
-     *     The state
-     */
     @JsonProperty("state")
     public void setState(String state) {
         this.state = state;
     }
 
-    /**
-     * 
-     * @return
-     *     The priorityTypes
-     */
     @JsonProperty("priorityTypes")
     public List<Object> getPriorityTypes() {
         return priorityTypes;
     }
 
-    /**
-     * 
-     * @param priorityTypes
-     *     The priorityTypes
-     */
     @JsonProperty("priorityTypes")
     public void setPriorityTypes(List<Object> priorityTypes) {
         this.priorityTypes = priorityTypes;
     }
 
-    /**
-     * 
-     * @return
-     *     The defaultPriorityTypeId
-     */
     @JsonProperty("defaultPriorityTypeId")
     public Integer getDefaultPriorityTypeId() {
         return defaultPriorityTypeId;
     }
 
-    /**
-     * 
-     * @param defaultPriorityTypeId
-     *     The defaultPriorityTypeId
-     */
     @JsonProperty("defaultPriorityTypeId")
     public void setDefaultPriorityTypeId(Integer defaultPriorityTypeId) {
         this.defaultPriorityTypeId = defaultPriorityTypeId;

@@ -1,21 +1,20 @@
 
 package com.whd.autogen.ticket;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "type",
@@ -23,7 +22,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "levelName",
     "shortLevelName"
 })
-public class TechGroupLevel {
+public class TechGroupLevel implements Serializable
+{
 
     @JsonProperty("id")
     private Integer id;
@@ -37,102 +37,77 @@ public class TechGroupLevel {
     private String shortLevelName;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final static long serialVersionUID = -5209877166600752135L;
 
     /**
+     * No args constructor for use in serialization
      * 
-     * @return
-     *     The id
      */
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * 
-     * @return
-     *     The type
-     */
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * 
-     * @param type
-     *     The type
-     */
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The level
-     */
-    @JsonProperty("level")
-    public Integer getLevel() {
-        return level;
+    public TechGroupLevel() {
     }
 
     /**
      * 
      * @param level
-     *     The level
+     * @param levelName
+     * @param shortLevelName
+     * @param id
+     * @param type
      */
+    public TechGroupLevel(Integer id, String type, Integer level, String levelName, String shortLevelName) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.level = level;
+        this.levelName = levelName;
+        this.shortLevelName = shortLevelName;
+    }
+
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("level")
+    public Integer getLevel() {
+        return level;
+    }
+
     @JsonProperty("level")
     public void setLevel(Integer level) {
         this.level = level;
     }
 
-    /**
-     * 
-     * @return
-     *     The levelName
-     */
     @JsonProperty("levelName")
     public String getLevelName() {
         return levelName;
     }
 
-    /**
-     * 
-     * @param levelName
-     *     The levelName
-     */
     @JsonProperty("levelName")
     public void setLevelName(String levelName) {
         this.levelName = levelName;
     }
 
-    /**
-     * 
-     * @return
-     *     The shortLevelName
-     */
     @JsonProperty("shortLevelName")
     public String getShortLevelName() {
         return shortLevelName;
     }
 
-    /**
-     * 
-     * @param shortLevelName
-     *     The shortLevelName
-     */
     @JsonProperty("shortLevelName")
     public void setShortLevelName(String shortLevelName) {
         this.shortLevelName = shortLevelName;

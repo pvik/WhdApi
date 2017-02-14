@@ -1,23 +1,22 @@
 
 package com.whd.autogen.ticket;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "type",
@@ -33,7 +32,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "companyName",
     "username"
 })
-public class ClientReporter {
+public class ClientReporter implements Serializable
+{
 
     @JsonProperty("id")
     private Integer id;
@@ -63,262 +63,173 @@ public class ClientReporter {
     private String username;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final static long serialVersionUID = 3783747255337302776L;
 
     /**
+     * No args constructor for use in serialization
      * 
-     * @return
-     *     The id
      */
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * 
-     * @return
-     *     The type
-     */
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * 
-     * @param type
-     *     The type
-     */
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The email
-     */
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * 
-     * @param email
-     *     The email
-     */
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * 
-     * @return
-     *     The firstName
-     */
-    @JsonProperty("firstName")
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * 
-     * @param firstName
-     *     The firstName
-     */
-    @JsonProperty("firstName")
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    /**
-     * 
-     * @return
-     *     The lastName
-     */
-    @JsonProperty("lastName")
-    public String getLastName() {
-        return lastName;
+    public ClientReporter() {
     }
 
     /**
      * 
      * @param lastName
-     *     The lastName
+     * @param notes
+     * @param companyName
+     * @param phone2
+     * @param type
+     * @param room
+     * @param firstName
+     * @param phone
+     * @param location
+     * @param id
+     * @param department
+     * @param email
+     * @param username
      */
+    public ClientReporter(Integer id, String type, String email, String firstName, String lastName, List<Note> notes, String phone, String phone2, String department, Location location, String room, String companyName, String username) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.notes = notes;
+        this.phone = phone;
+        this.phone2 = phone2;
+        this.department = department;
+        this.location = location;
+        this.room = room;
+        this.companyName = companyName;
+        this.username = username;
+    }
+
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("email")
+    public String getEmail() {
+        return email;
+    }
+
+    @JsonProperty("email")
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @JsonProperty("firstName")
+    public String getFirstName() {
+        return firstName;
+    }
+
+    @JsonProperty("firstName")
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @JsonProperty("lastName")
+    public String getLastName() {
+        return lastName;
+    }
+
     @JsonProperty("lastName")
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-     * 
-     * @return
-     *     The notes
-     */
     @JsonProperty("notes")
     public List<Note> getNotes() {
         return notes;
     }
 
-    /**
-     * 
-     * @param notes
-     *     The notes
-     */
     @JsonProperty("notes")
     public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
 
-    /**
-     * 
-     * @return
-     *     The phone
-     */
     @JsonProperty("phone")
     public String getPhone() {
         return phone;
     }
 
-    /**
-     * 
-     * @param phone
-     *     The phone
-     */
     @JsonProperty("phone")
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    /**
-     * 
-     * @return
-     *     The phone2
-     */
     @JsonProperty("phone2")
     public String getPhone2() {
         return phone2;
     }
 
-    /**
-     * 
-     * @param phone2
-     *     The phone2
-     */
     @JsonProperty("phone2")
     public void setPhone2(String phone2) {
         this.phone2 = phone2;
     }
 
-    /**
-     * 
-     * @return
-     *     The department
-     */
     @JsonProperty("department")
     public String getDepartment() {
         return department;
     }
 
-    /**
-     * 
-     * @param department
-     *     The department
-     */
     @JsonProperty("department")
     public void setDepartment(String department) {
         this.department = department;
     }
 
-    /**
-     * 
-     * @return
-     *     The location
-     */
     @JsonProperty("location")
     public Location getLocation() {
         return location;
     }
 
-    /**
-     * 
-     * @param location
-     *     The location
-     */
     @JsonProperty("location")
     public void setLocation(Location location) {
         this.location = location;
     }
 
-    /**
-     * 
-     * @return
-     *     The room
-     */
     @JsonProperty("room")
     public String getRoom() {
         return room;
     }
 
-    /**
-     * 
-     * @param room
-     *     The room
-     */
     @JsonProperty("room")
     public void setRoom(String room) {
         this.room = room;
     }
 
-    /**
-     * 
-     * @return
-     *     The companyName
-     */
     @JsonProperty("companyName")
     public String getCompanyName() {
         return companyName;
     }
 
-    /**
-     * 
-     * @param companyName
-     *     The companyName
-     */
     @JsonProperty("companyName")
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    /**
-     * 
-     * @return
-     *     The username
-     */
     @JsonProperty("username")
     public String getUsername() {
         return username;
     }
 
-    /**
-     * 
-     * @param username
-     *     The username
-     */
     @JsonProperty("username")
     public void setUsername(String username) {
         this.username = username;

@@ -1,28 +1,28 @@
 
 package com.whd.autogen.ticket;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "type",
     "email",
     "displayName"
 })
-public class ClientTech {
+public class ClientTech implements Serializable
+{
 
     @JsonProperty("id")
     private Integer id;
@@ -34,82 +34,65 @@ public class ClientTech {
     private String displayName;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final static long serialVersionUID = -7631582058331785709L;
 
     /**
+     * No args constructor for use in serialization
      * 
-     * @return
-     *     The id
      */
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * 
-     * @return
-     *     The type
-     */
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * 
-     * @param type
-     *     The type
-     */
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The email
-     */
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * 
-     * @param email
-     *     The email
-     */
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * 
-     * @return
-     *     The displayName
-     */
-    @JsonProperty("displayName")
-    public String getDisplayName() {
-        return displayName;
+    public ClientTech() {
     }
 
     /**
      * 
      * @param displayName
-     *     The displayName
+     * @param id
+     * @param type
+     * @param email
      */
+    public ClientTech(Integer id, String type, String email, String displayName) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.email = email;
+        this.displayName = displayName;
+    }
+
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("email")
+    public String getEmail() {
+        return email;
+    }
+
+    @JsonProperty("email")
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @JsonProperty("displayName")
+    public String getDisplayName() {
+        return displayName;
+    }
+
     @JsonProperty("displayName")
     public void setDisplayName(String displayName) {
         this.displayName = displayName;

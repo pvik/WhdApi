@@ -1,21 +1,20 @@
 
 package com.whd.autogen.ticket;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "type",
@@ -23,7 +22,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "sizeString",
     "uploadDateUtc"
 })
-public class Attachment {
+public class Attachment implements Serializable
+{
 
     @JsonProperty("id")
     private Object id;
@@ -37,102 +37,77 @@ public class Attachment {
     private String uploadDateUtc;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final static long serialVersionUID = 1288964902021687108L;
 
     /**
+     * No args constructor for use in serialization
      * 
-     * @return
-     *     The id
      */
-    @JsonProperty("id")
-    public Object getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    /**
-     * 
-     * @return
-     *     The type
-     */
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * 
-     * @param type
-     *     The type
-     */
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The fileName
-     */
-    @JsonProperty("fileName")
-    public String getFileName() {
-        return fileName;
+    public Attachment() {
     }
 
     /**
      * 
      * @param fileName
-     *     The fileName
+     * @param uploadDateUtc
+     * @param id
+     * @param type
+     * @param sizeString
      */
+    public Attachment(Object id, String type, String fileName, String sizeString, String uploadDateUtc) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.fileName = fileName;
+        this.sizeString = sizeString;
+        this.uploadDateUtc = uploadDateUtc;
+    }
+
+    @JsonProperty("id")
+    public Object getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(Object id) {
+        this.id = id;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("fileName")
+    public String getFileName() {
+        return fileName;
+    }
+
     @JsonProperty("fileName")
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    /**
-     * 
-     * @return
-     *     The sizeString
-     */
     @JsonProperty("sizeString")
     public String getSizeString() {
         return sizeString;
     }
 
-    /**
-     * 
-     * @param sizeString
-     *     The sizeString
-     */
     @JsonProperty("sizeString")
     public void setSizeString(String sizeString) {
         this.sizeString = sizeString;
     }
 
-    /**
-     * 
-     * @return
-     *     The uploadDateUtc
-     */
     @JsonProperty("uploadDateUtc")
     public String getUploadDateUtc() {
         return uploadDateUtc;
     }
 
-    /**
-     * 
-     * @param uploadDateUtc
-     *     The uploadDateUtc
-     */
     @JsonProperty("uploadDateUtc")
     public void setUploadDateUtc(String uploadDateUtc) {
         this.uploadDateUtc = uploadDateUtc;

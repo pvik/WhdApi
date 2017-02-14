@@ -1,27 +1,27 @@
 
 package com.whd.autogen.ticket;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "type",
     "priorityTypeName"
 })
-public class Prioritytype {
+public class Prioritytype implements Serializable
+{
 
     @JsonProperty("id")
     private Integer id;
@@ -31,62 +31,53 @@ public class Prioritytype {
     private String priorityTypeName;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final static long serialVersionUID = 4418309207258568724L;
 
     /**
+     * No args constructor for use in serialization
      * 
-     * @return
-     *     The id
      */
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * 
-     * @return
-     *     The type
-     */
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * 
-     * @param type
-     *     The type
-     */
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The priorityTypeName
-     */
-    @JsonProperty("priorityTypeName")
-    public String getPriorityTypeName() {
-        return priorityTypeName;
+    public Prioritytype() {
     }
 
     /**
      * 
      * @param priorityTypeName
-     *     The priorityTypeName
+     * @param id
+     * @param type
      */
+    public Prioritytype(Integer id, String type, String priorityTypeName) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.priorityTypeName = priorityTypeName;
+    }
+
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("priorityTypeName")
+    public String getPriorityTypeName() {
+        return priorityTypeName;
+    }
+
     @JsonProperty("priorityTypeName")
     public void setPriorityTypeName(String priorityTypeName) {
         this.priorityTypeName = priorityTypeName;
