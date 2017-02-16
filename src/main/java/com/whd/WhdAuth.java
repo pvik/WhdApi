@@ -23,12 +23,14 @@ public class WhdAuth {
     private WhdAuthType authType;
     
     private String whdUrl;
+    private String whdUri;
     
     /**
      *
      * @param uri
      */
     public WhdAuth(String uri) {
+        this.whdUri = uri;
         this.whdUrl = uri+Util.whdUrn;
         clearAllVars();
     }
@@ -41,6 +43,7 @@ public class WhdAuth {
      * @param token
      */
     public WhdAuth(String uri, WhdAuthType type, String username, String token) {
+        this.whdUri = uri;
         this.whdUrl = uri+Util.whdUrn;
         this.username = username;
         
@@ -214,5 +217,8 @@ public class WhdAuth {
     public String getWhdUrl() {
         return whdUrl;
     }
-    
+
+    public String getWhdUri() {
+        return whdUri;
+    }
 }

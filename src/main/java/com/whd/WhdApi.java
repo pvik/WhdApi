@@ -2,6 +2,7 @@ package com.whd;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequestWithBody;
@@ -16,24 +17,34 @@ import com.whd.autogen.ticket.Location;
 import com.whd.autogen.ticket.TicketCustomField;
 import com.whd.autogen.ticket.WhdTicket;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
+import org.apache.commons.lang3.builder.MultilineRecursiveToStringStyle;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WhdApi {
     private static final Logger log = LoggerFactory.getLogger(WhdApi.class);
 
-    public static WhdTicket createUpdateTicket(WhdTicket ticket) {
+    public static WhdTicket createUpdateTicket(WhdAuth auth, WhdTicket ticket) throws WhdException {
         log.debug("createUpdateTicket(WhdTicket)");
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (ticket.getId() == null) {
+            return createTicket(auth, ticket);
+        } else {
+            updateTicket(auth, ticket);
+            return ticket;
+        }
     }
 
     public static WhdTicket createTicket(WhdAuth auth, WhdTicket ticket) throws WhdException {
@@ -41,15 +52,21 @@ public class WhdApi {
 
         WhdTicket respTicket = null;
         try {
+            String jsonTicketStream = Util.jsonMapper
+                    .writer()
+                    .without(SerializationFeature.WRAP_ROOT_VALUE)
+                    .writeValueAsString(ticket);
 
-            String jsonTicketStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(ticket);
-
-            HttpResponse<String> resp = Unirest.put(auth.getWhdUrl())
+            HttpResponse<String> resp = Unirest.post(auth.getWhdUrl())
                     .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
                     .routeParam("resource_type", "Ticket")
                     .queryString(auth.generateAuthUrlParams())
                     .body(jsonTicketStream)
                     .asString();
+
+            log.trace("response status: {}", resp.getStatusText());
+            log.trace("response: {}", resp.getBody());
 
             Util.processResponseForException(resp);
 
@@ -72,7 +89,8 @@ public class WhdApi {
 
             HttpRequestWithBody httpRequest = Unirest.put(auth.getWhdUrl() + "/{ticket_id}")
                     .header("accept", "application/json")
-                    .routeParam("resource_type", "Ticket")
+                    .header("Content-Type", "application/json")
+                    .routeParam("resource_type", "Tickets")
                     .routeParam("ticket_id", ticketId)
                     .queryString(auth.generateAuthUrlParams());
 
@@ -159,6 +177,44 @@ public class WhdApi {
         }
     }
 
+    public static void addTicketAttachment(WhdAuth auth, Integer ticketId, String filePath) throws WhdException {
+        try {
+            HttpResponse<JsonNode> jsonResponse = Unirest.get(auth.getWhdUrl())
+                    .header("accept", "application/json")
+                    .routeParam("resource_type", "Session")
+                    .queryString(auth.generateAuthUrlParams())
+                    .asJson();
+
+            String cookies =  jsonResponse.getHeaders().get("Set-Cookie").stream()
+                    .collect(Collectors.joining("; "));
+
+            String wosid;
+            try {
+                wosid = jsonResponse.getBody().getObject().getString("sessionKey");
+            } catch (JSONException e) {
+                throw new WhdException("Unable to upload attachment " +
+                        filePath + " to WHD ticket " +
+                        ticketId + "\nInvalid REST SessionID received");
+            }
+            cookies = cookies + "; wosid="+wosid;
+
+            HttpResponse<JsonNode> jsonResponseFileUpload = Unirest.post(auth.getWhdUri()+
+                    "/helpdesk/attachment/upload?type=jobTicket&entityId={ticket_id}")
+                    .header("accept", "application/json")
+                    .header("Cookie", cookies)
+                    .header("Connection", "keep-alive")
+                    .header("Pragma", "no-cache")
+                    .routeParam("ticket_id", ticketId.toString())
+                    .field("file", new File(filePath))
+                    .asJson();
+
+            log.debug("Response for uploading attachment: " +
+                    jsonResponseFileUpload.getBody());
+        } catch (UnirestException e) {
+            throw new WhdException("Error uploading attachment to Ticket: " + e.getMessage(), e);
+        }
+    }
+
     public static void addNote(WhdAuth auth, Integer ticketId, String noteText) throws WhdException {
         try {
             WhdNote note = new WhdNote();
@@ -174,6 +230,7 @@ public class WhdApi {
 
             HttpResponse<String> resp = Unirest.post(auth.getWhdUrl())
                     .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
                     .routeParam("resource_type", "TechNotes")
                     .queryString(auth.generateAuthUrlParams())
                     .body(jsonNoteStream)
@@ -377,6 +434,7 @@ public class WhdApi {
 
             HttpResponse<String> resp = Unirest.put(auth.getWhdUrl() + "/{ticket_id}")
                     .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
                     .routeParam("resource_type", "Locations")
                     .queryString(auth.generateAuthUrlParams())
                     .body(jsonTicketStream)
@@ -497,6 +555,7 @@ public class WhdApi {
 
             HttpResponse<String> resp = Unirest.put(auth.getWhdUrl() + "/{location_id}")
                     .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
                     .routeParam("resource_type", "Locations")
                     .routeParam("location_id", locationId)
                     .queryString(auth.generateAuthUrlParams())

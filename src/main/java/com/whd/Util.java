@@ -1,5 +1,6 @@
 package com.whd;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mashape.unirest.http.HttpResponse;
@@ -12,7 +13,8 @@ public class Util {
     public static final String whdUrn = "/helpdesk/WebObjects/Helpdesk.woa/ra/{resource_type}";
     
     public static final ObjectMapper jsonMapper = new ObjectMapper()
-            .enable(SerializationFeature.INDENT_OUTPUT);
+            .enable(SerializationFeature.INDENT_OUTPUT)
+            .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
     
     public enum WhdAuthType {PASSWORD, SESSION_KEY, API_KEY};
     
@@ -22,34 +24,37 @@ public class Util {
      * @throws com.whd.WhdException
      */
     public static void processResponseForException(HttpResponse e) throws WhdException {
-        WhdException wex = new WhdException("Web Help Desk RestAPI Exception");
-        
         int statusCode = e.getStatus();
         
         switch(statusCode){
             case HttpStatus.SC_NOT_FOUND:
             case HttpStatus.SC_GATEWAY_TIMEOUT:
             case HttpStatus.SC_BAD_GATEWAY:
-                wex.setExceptionType(WhdExceptionType.SERVER_UNREACHABLE);
-                break;
+                throw new WhdException(WhdExceptionType.SERVER_UNREACHABLE,
+                        "Unable to reach Web Help Desk Server!\n" +
+                                e.getStatusText() + " : " +
+                                e.getBody());
             case HttpStatus.SC_UNAUTHORIZED:
-                wex.setExceptionType(WhdExceptionType.AUTH_FAILURE);
-                wex.setComment("Unable to Authenticate to Web Help Desk!");
-                break;
+                throw new WhdException(WhdExceptionType.AUTH_FAILURE,
+                        "Unable to Authenticate to Web Help Desk!\n" +
+                                e.getStatusText() + " : " +
+                                e.getBody());
             case HttpStatus.SC_FORBIDDEN:
-                wex.setExceptionType(WhdExceptionType.PERMISSION_FAILURE);
-                break;
+                throw new WhdException(WhdExceptionType.PERMISSION_FAILURE,
+                        "Insufficient permissions to perform operation on Web Help Desk Server!\n" +
+                                e.getStatusText() + " : " +
+                                e.getBody());
             case HttpStatus.SC_INTERNAL_SERVER_ERROR:
-                wex.setExceptionType(WhdExceptionType.SERVER_ERROR);
-                break;
+                throw new WhdException(WhdExceptionType.SERVER_ERROR,
+                        "Web Help Desk Server Error!\n" +
+                                e.getStatusText() + " : " +
+                                e.getBody());
             case HttpStatus.SC_BAD_REQUEST:
-                wex.setExceptionType(WhdExceptionType.INVALID_REQUEST);
-                wex.setComment("Invalid Request to Web Help Desk: "+e.getBody().toString());
-                break;
+                throw new WhdException(WhdExceptionType.INVALID_REQUEST,
+                        "Invalid Request to Web Help Desk!\n" +
+                                e.getStatusText() + " : " +
+                                e.getBody());
         }
-        
-        if(wex.exceptionType != null)
-            throw wex;
     }
     
     /**
