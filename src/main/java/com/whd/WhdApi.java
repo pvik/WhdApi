@@ -117,6 +117,9 @@ public class WhdApi {
                     .queryString(auth.generateAuthUrlParams())
                     .asString();
 
+            log.trace("response status: {}", resp.getStatusText());
+            log.trace("response: {}", resp.getBody());
+
             Util.processResponseForException(resp);
 
             return Util.jsonMapper.readValue(resp.getBody(), WhdTicket.class);
@@ -246,7 +249,7 @@ public class WhdApi {
         }
     }
 
-    public static WhdTicket parseCustomFieldList(WhdTicket ticket) {
+    public static void parseCustomFieldList(WhdTicket ticket) {
         List<TicketCustomField> customFieldList = ticket.getTicketCustomFields();
 
         if (customFieldList != null) {
@@ -268,7 +271,7 @@ public class WhdApi {
                 }
             }
         }
-        return ticket;
+        //return ticket;
     }
 
     public static WhdTicket populateCustomFieldsList(WhdTicket ticket) {

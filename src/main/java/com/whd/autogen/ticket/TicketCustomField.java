@@ -16,7 +16,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
     "type",
     "definitionId",
     "restValue"
@@ -24,8 +23,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class TicketCustomField implements Serializable
 {
 
-    @JsonProperty("id")
-    private Integer id;
     @JsonProperty("type")
     private String type;
     @JsonProperty("definitionId")
@@ -34,7 +31,7 @@ public class TicketCustomField implements Serializable
     private String restValue;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 8020995325204296991L;
+    private final static long serialVersionUID = -6867983532954439448L;
 
     /**
      * No args constructor for use in serialization
@@ -46,26 +43,14 @@ public class TicketCustomField implements Serializable
     /**
      * 
      * @param restValue
-     * @param id
      * @param type
      * @param definitionId
      */
-    public TicketCustomField(Integer id, String type, Integer definitionId, String restValue) {
+    public TicketCustomField(String type, Integer definitionId, String restValue) {
         super();
-        this.id = id;
         this.type = type;
         this.definitionId = definitionId;
         this.restValue = restValue;
-    }
-
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     @JsonProperty("type")
@@ -115,7 +100,7 @@ public class TicketCustomField implements Serializable
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(type).append(definitionId).append(restValue).append(additionalProperties).toHashCode();
+        return new HashCodeBuilder().append(type).append(definitionId).append(restValue).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -127,7 +112,7 @@ public class TicketCustomField implements Serializable
             return false;
         }
         TicketCustomField rhs = ((TicketCustomField) other);
-        return new EqualsBuilder().append(id, rhs.id).append(type, rhs.type).append(definitionId, rhs.definitionId).append(restValue, rhs.restValue).append(additionalProperties, rhs.additionalProperties).isEquals();
+        return new EqualsBuilder().append(type, rhs.type).append(definitionId, rhs.definitionId).append(restValue, rhs.restValue).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }

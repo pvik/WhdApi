@@ -1,6 +1,7 @@
 package com.whd;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mashape.unirest.http.HttpResponse;
@@ -14,7 +15,8 @@ public class Util {
     
     public static final ObjectMapper jsonMapper = new ObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT)
-            .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);//
     
     public enum WhdAuthType {PASSWORD, SESSION_KEY, API_KEY};
     

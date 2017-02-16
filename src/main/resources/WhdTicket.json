@@ -64,10 +64,6 @@
         "customField": {
             "type": "object",
             "properties": {
-                "id": {
-                    "id": "id",
-                    "type": "integer"
-                },
                 "type": {
                     "id": "type",
                     "type": "string"

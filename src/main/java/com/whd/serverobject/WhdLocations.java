@@ -6,6 +6,7 @@ import com.whd.WhdApi;
 import com.whd.WhdAuth;
 import com.whd.WhdException;
 import com.whd.autogen.LocationDefinition;
+import com.whd.autogen.ticket.WhdTicket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,15 @@ public class WhdLocations {
         }
 
         locationMap = mapBuilder.build();
+    }
+
+    public String getLocationName(WhdTicket whdTicket) throws WhdException {
+        if (whdTicket.getLocationId() != null)
+            return locationMap.get(whdTicket.getLocationId());
+        else if (whdTicket.getLocation() != null)
+            return whdTicket.getLocation().getLocationName();
+        else throw new WhdException("Ticket location is not set in WHD or " +
+                    "Exception trying to retrieve location from ticket");
     }
 
     public String getLocationName(Integer id) {
