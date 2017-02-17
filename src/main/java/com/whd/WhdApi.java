@@ -309,14 +309,14 @@ public class WhdApi {
         return ticket;
     }
 
-    public static WhdTicket populateLocationObject(WhdTicket ticket) {
+    public static void populateLocationObject(WhdTicket ticket) {
         if (ticket.getLocationId() != null) {
             Location loc = new Location();
+
             loc.setType("Location");
             loc.setId(ticket.getLocationId());
             ticket.setLocation(loc);
         }
-        return ticket;
     }
 
     public static List<RequestTypeDefinition> getRequestTypeDefinitions(WhdAuth auth) throws WhdException {
