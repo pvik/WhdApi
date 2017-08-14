@@ -2,3 +2,4 @@
 build/
 src/test/java/com/whd/test/TestDetails.java
 .nb-gradle/
+out/
