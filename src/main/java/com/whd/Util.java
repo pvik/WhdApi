@@ -30,6 +30,10 @@ public class Util {
         
         switch(statusCode){
             case HttpStatus.SC_NOT_FOUND:
+                throw new WhdException(WhdExceptionType.INVALID_REQUEST,
+                        "Unable to perform request!\n" +
+                                e.getStatusText() + " : " +
+                                e.getBody());
             case HttpStatus.SC_GATEWAY_TIMEOUT:
             case HttpStatus.SC_BAD_GATEWAY:
                 throw new WhdException(WhdExceptionType.SERVER_UNREACHABLE,
