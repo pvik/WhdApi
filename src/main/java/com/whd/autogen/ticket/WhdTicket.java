@@ -56,16 +56,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "notes",
     "ticketCustomFields",
     "enabledStatusTypes",
-    "attachments",
-    "customField_18",
-    "customField_14",
-    "customField_15",
-    "customField_122",
-    "customField_123",
-    "customField_23",
-    "customField_24",
-    "customField_125",
-    "customField_121"
+    "attachments"
 })
 public class WhdTicket implements Serializable
 {
@@ -148,27 +139,9 @@ public class WhdTicket implements Serializable
     private List<Statustype> enabledStatusTypes = new ArrayList<Statustype>();
     @JsonProperty("attachments")
     private List<Attachment> attachments = new ArrayList<Attachment>();
-    @JsonProperty("customField_18")
-    private String customField18;
-    @JsonProperty("customField_14")
-    private String customField14;
-    @JsonProperty("customField_15")
-    private String customField15;
-    @JsonProperty("customField_122")
-    private String customField122;
-    @JsonProperty("customField_123")
-    private String customField123;
-    @JsonProperty("customField_23")
-    private String customField23;
-    @JsonProperty("customField_24")
-    private String customField24;
-    @JsonProperty("customField_125")
-    private String customField125;
-    @JsonProperty("customField_121")
-    private String customField121;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -4691383693187563913L;
+    private final static long serialVersionUID = 7034355626206852292L;
 
     /**
      * No args constructor for use in serialization
@@ -180,14 +153,9 @@ public class WhdTicket implements Serializable
     /**
      * 
      * @param emailCc
-     * @param customField125
-     * @param customField122
      * @param notes
      * @param attachments
-     * @param customField123
-     * @param customField23
      * @param priorityTypeId
-     * @param customField24
      * @param subject
      * @param techGroupLevel
      * @param departmentId
@@ -195,7 +163,6 @@ public class WhdTicket implements Serializable
      * @param problemtype
      * @param needsApproval
      * @param type
-     * @param customField121
      * @param displayClient
      * @param enabledStatusTypes
      * @param ticketEditable
@@ -209,9 +176,7 @@ public class WhdTicket implements Serializable
      * @param emailBcc
      * @param flaggedByTech
      * @param canEscalate
-     * @param customField14
      * @param clientId
-     * @param customField15
      * @param ccAddressesForTech
      * @param emailClient
      * @param emailGroupManager
@@ -225,10 +190,9 @@ public class WhdTicket implements Serializable
      * @param statustype
      * @param detail
      * @param techId
-     * @param customField18
      * @param prioritytype
      */
-    public WhdTicket(Integer id, String type, String bccAddresses, String ccAddressesForTech, Integer departmentId, String lastUpdated, Integer locationId, Integer priorityTypeId, String room, Integer statusTypeId, String subject, ClientReporter clientReporter, ClientTech clientTech, Location location, Prioritytype prioritytype, Problemtype problemtype, Statustype statustype, TechGroupLevel techGroupLevel, String detail, String reportDateUtc, String displayClient, Boolean emailClient, Boolean emailTech, Boolean emailTechGroupLevel, Boolean emailGroupManager, Boolean emailCc, Boolean emailBcc, Boolean needsApproval, Boolean ticketEditable, Integer techId, String levelNumber, Integer clientId, Boolean flaggedByTech, Boolean isPublic, Boolean canEscalate, List<Note> notes, List<TicketCustomField> ticketCustomFields, List<Statustype> enabledStatusTypes, List<Attachment> attachments, String customField18, String customField14, String customField15, String customField122, String customField123, String customField23, String customField24, String customField125, String customField121) {
+    public WhdTicket(Integer id, String type, String bccAddresses, String ccAddressesForTech, Integer departmentId, String lastUpdated, Integer locationId, Integer priorityTypeId, String room, Integer statusTypeId, String subject, ClientReporter clientReporter, ClientTech clientTech, Location location, Prioritytype prioritytype, Problemtype problemtype, Statustype statustype, TechGroupLevel techGroupLevel, String detail, String reportDateUtc, String displayClient, Boolean emailClient, Boolean emailTech, Boolean emailTechGroupLevel, Boolean emailGroupManager, Boolean emailCc, Boolean emailBcc, Boolean needsApproval, Boolean ticketEditable, Integer techId, String levelNumber, Integer clientId, Boolean flaggedByTech, Boolean isPublic, Boolean canEscalate, List<Note> notes, List<TicketCustomField> ticketCustomFields, List<Statustype> enabledStatusTypes, List<Attachment> attachments) {
         super();
         this.id = id;
         this.type = type;
@@ -269,15 +233,6 @@ public class WhdTicket implements Serializable
         this.ticketCustomFields = ticketCustomFields;
         this.enabledStatusTypes = enabledStatusTypes;
         this.attachments = attachments;
-        this.customField18 = customField18;
-        this.customField14 = customField14;
-        this.customField15 = customField15;
-        this.customField122 = customField122;
-        this.customField123 = customField123;
-        this.customField23 = customField23;
-        this.customField24 = customField24;
-        this.customField125 = customField125;
-        this.customField121 = customField121;
     }
 
     @JsonProperty("id")
@@ -670,96 +625,6 @@ public class WhdTicket implements Serializable
         this.attachments = attachments;
     }
 
-    @JsonProperty("customField_18")
-    public String getCustomField18() {
-        return customField18;
-    }
-
-    @JsonProperty("customField_18")
-    public void setCustomField18(String customField18) {
-        this.customField18 = customField18;
-    }
-
-    @JsonProperty("customField_14")
-    public String getCustomField14() {
-        return customField14;
-    }
-
-    @JsonProperty("customField_14")
-    public void setCustomField14(String customField14) {
-        this.customField14 = customField14;
-    }
-
-    @JsonProperty("customField_15")
-    public String getCustomField15() {
-        return customField15;
-    }
-
-    @JsonProperty("customField_15")
-    public void setCustomField15(String customField15) {
-        this.customField15 = customField15;
-    }
-
-    @JsonProperty("customField_122")
-    public String getCustomField122() {
-        return customField122;
-    }
-
-    @JsonProperty("customField_122")
-    public void setCustomField122(String customField122) {
-        this.customField122 = customField122;
-    }
-
-    @JsonProperty("customField_123")
-    public String getCustomField123() {
-        return customField123;
-    }
-
-    @JsonProperty("customField_123")
-    public void setCustomField123(String customField123) {
-        this.customField123 = customField123;
-    }
-
-    @JsonProperty("customField_23")
-    public String getCustomField23() {
-        return customField23;
-    }
-
-    @JsonProperty("customField_23")
-    public void setCustomField23(String customField23) {
-        this.customField23 = customField23;
-    }
-
-    @JsonProperty("customField_24")
-    public String getCustomField24() {
-        return customField24;
-    }
-
-    @JsonProperty("customField_24")
-    public void setCustomField24(String customField24) {
-        this.customField24 = customField24;
-    }
-
-    @JsonProperty("customField_125")
-    public String getCustomField125() {
-        return customField125;
-    }
-
-    @JsonProperty("customField_125")
-    public void setCustomField125(String customField125) {
-        this.customField125 = customField125;
-    }
-
-    @JsonProperty("customField_121")
-    public String getCustomField121() {
-        return customField121;
-    }
-
-    @JsonProperty("customField_121")
-    public void setCustomField121(String customField121) {
-        this.customField121 = customField121;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -777,7 +642,7 @@ public class WhdTicket implements Serializable
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(type).append(bccAddresses).append(ccAddressesForTech).append(departmentId).append(lastUpdated).append(locationId).append(priorityTypeId).append(room).append(statusTypeId).append(subject).append(clientReporter).append(clientTech).append(location).append(prioritytype).append(problemtype).append(statustype).append(techGroupLevel).append(detail).append(reportDateUtc).append(displayClient).append(emailClient).append(emailTech).append(emailTechGroupLevel).append(emailGroupManager).append(emailCc).append(emailBcc).append(needsApproval).append(ticketEditable).append(techId).append(levelNumber).append(clientId).append(flaggedByTech).append(isPublic).append(canEscalate).append(notes).append(ticketCustomFields).append(enabledStatusTypes).append(attachments).append(customField18).append(customField14).append(customField15).append(customField122).append(customField123).append(customField23).append(customField24).append(customField125).append(customField121).append(additionalProperties).toHashCode();
+        return new HashCodeBuilder().append(id).append(type).append(bccAddresses).append(ccAddressesForTech).append(departmentId).append(lastUpdated).append(locationId).append(priorityTypeId).append(room).append(statusTypeId).append(subject).append(clientReporter).append(clientTech).append(location).append(prioritytype).append(problemtype).append(statustype).append(techGroupLevel).append(detail).append(reportDateUtc).append(displayClient).append(emailClient).append(emailTech).append(emailTechGroupLevel).append(emailGroupManager).append(emailCc).append(emailBcc).append(needsApproval).append(ticketEditable).append(techId).append(levelNumber).append(clientId).append(flaggedByTech).append(isPublic).append(canEscalate).append(notes).append(ticketCustomFields).append(enabledStatusTypes).append(attachments).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -789,7 +654,7 @@ public class WhdTicket implements Serializable
             return false;
         }
         WhdTicket rhs = ((WhdTicket) other);
-        return new EqualsBuilder().append(id, rhs.id).append(type, rhs.type).append(bccAddresses, rhs.bccAddresses).append(ccAddressesForTech, rhs.ccAddressesForTech).append(departmentId, rhs.departmentId).append(lastUpdated, rhs.lastUpdated).append(locationId, rhs.locationId).append(priorityTypeId, rhs.priorityTypeId).append(room, rhs.room).append(statusTypeId, rhs.statusTypeId).append(subject, rhs.subject).append(clientReporter, rhs.clientReporter).append(clientTech, rhs.clientTech).append(location, rhs.location).append(prioritytype, rhs.prioritytype).append(problemtype, rhs.problemtype).append(statustype, rhs.statustype).append(techGroupLevel, rhs.techGroupLevel).append(detail, rhs.detail).append(reportDateUtc, rhs.reportDateUtc).append(displayClient, rhs.displayClient).append(emailClient, rhs.emailClient).append(emailTech, rhs.emailTech).append(emailTechGroupLevel, rhs.emailTechGroupLevel).append(emailGroupManager, rhs.emailGroupManager).append(emailCc, rhs.emailCc).append(emailBcc, rhs.emailBcc).append(needsApproval, rhs.needsApproval).append(ticketEditable, rhs.ticketEditable).append(techId, rhs.techId).append(levelNumber, rhs.levelNumber).append(clientId, rhs.clientId).append(flaggedByTech, rhs.flaggedByTech).append(isPublic, rhs.isPublic).append(canEscalate, rhs.canEscalate).append(notes, rhs.notes).append(ticketCustomFields, rhs.ticketCustomFields).append(enabledStatusTypes, rhs.enabledStatusTypes).append(attachments, rhs.attachments).append(customField18, rhs.customField18).append(customField14, rhs.customField14).append(customField15, rhs.customField15).append(customField122, rhs.customField122).append(customField123, rhs.customField123).append(customField23, rhs.customField23).append(customField24, rhs.customField24).append(customField125, rhs.customField125).append(customField121, rhs.customField121).append(additionalProperties, rhs.additionalProperties).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(type, rhs.type).append(bccAddresses, rhs.bccAddresses).append(ccAddressesForTech, rhs.ccAddressesForTech).append(departmentId, rhs.departmentId).append(lastUpdated, rhs.lastUpdated).append(locationId, rhs.locationId).append(priorityTypeId, rhs.priorityTypeId).append(room, rhs.room).append(statusTypeId, rhs.statusTypeId).append(subject, rhs.subject).append(clientReporter, rhs.clientReporter).append(clientTech, rhs.clientTech).append(location, rhs.location).append(prioritytype, rhs.prioritytype).append(problemtype, rhs.problemtype).append(statustype, rhs.statustype).append(techGroupLevel, rhs.techGroupLevel).append(detail, rhs.detail).append(reportDateUtc, rhs.reportDateUtc).append(displayClient, rhs.displayClient).append(emailClient, rhs.emailClient).append(emailTech, rhs.emailTech).append(emailTechGroupLevel, rhs.emailTechGroupLevel).append(emailGroupManager, rhs.emailGroupManager).append(emailCc, rhs.emailCc).append(emailBcc, rhs.emailBcc).append(needsApproval, rhs.needsApproval).append(ticketEditable, rhs.ticketEditable).append(techId, rhs.techId).append(levelNumber, rhs.levelNumber).append(clientId, rhs.clientId).append(flaggedByTech, rhs.flaggedByTech).append(isPublic, rhs.isPublic).append(canEscalate, rhs.canEscalate).append(notes, rhs.notes).append(ticketCustomFields, rhs.ticketCustomFields).append(enabledStatusTypes, rhs.enabledStatusTypes).append(attachments, rhs.attachments).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }
