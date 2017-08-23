@@ -249,66 +249,6 @@ public class WhdApi {
         }
     }
 
-    public static void parseCustomFieldList(WhdTicket ticket) {
-        List<TicketCustomField> customFieldList = ticket.getTicketCustomFields();
-
-        if (customFieldList != null) {
-            for (TicketCustomField customField : customFieldList) {
-                Integer fieldId = customField.getDefinitionId();
-                String val = customField.getRestValue();
-
-                try {
-                    Method setCustomFieldMethod = WhdTicket.class.getMethod(String.format("setCustomField%d", fieldId), String.class);
-                    setCustomFieldMethod.invoke(ticket, val);
-                } catch (NoSuchMethodException ex) {
-                    log.error("Unable to find set method for custom field id {}. Skipping custom field.", fieldId);
-                } catch (SecurityException ex) {
-                    log.error("Security Manager preventing from getting set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
-                } catch (IllegalAccessException ex) {
-                    log.error("IllegalAccessException on invoking set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
-                } catch (InvocationTargetException ex) {
-                    log.error("Exception on invoking set method for custom field id {}. \nStackTrace{}", fieldId, getStackTrace(ex));
-                }
-            }
-        }
-        //return ticket;
-    }
-
-    public static WhdTicket populateCustomFieldsList(WhdTicket ticket) {
-        List<TicketCustomField> customFieldList = ticket.getTicketCustomFields();
-
-        if (customFieldList != null) {
-            customFieldList.clear();
-        } else {
-            customFieldList = new ArrayList<>();
-        }
-
-        Method[] allWhdTicketMethods = WhdTicket.class.getMethods();
-
-        for (Method m : allWhdTicketMethods) {
-            String methodName = m.getName();
-            if (methodName.startsWith("getCustomField")) {
-                try {
-                    Integer fieldId = Integer.parseInt(methodName.split("getCustomField")[1]);
-
-                    TicketCustomField customField = new TicketCustomField();
-                    customField.setDefinitionId(fieldId);
-
-                    String customFieldValue = (String) m.invoke(m);
-
-                    customField.setRestValue(customFieldValue);
-
-                    customFieldList.add(customField);
-                } catch (Exception e) {
-                    log.error("Exception getting customField attribute with method: {}\nStackTrace: {}", methodName, getStackTrace(e));
-                }
-            }
-        }
-        ticket.setTicketCustomFields(customFieldList);
-
-        return ticket;
-    }
-
     public static void populateLocationObject(WhdTicket ticket) {
         if (ticket.getLocationId() != null) {
             Location loc = new Location();
