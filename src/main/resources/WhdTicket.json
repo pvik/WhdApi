@@ -448,42 +448,6 @@
             "items": {
                 "$ref": "#/definitions/attachment"
             }
-        },
-        "customField_18": {
-            "id": "customField_18",
-            "type": "string"
-        },
-        "customField_14": {
-            "id": "customField_14",
-            "type": "string"
-        },
-        "customField_15": {
-            "id": "customField_15",
-            "type": "string"
-        },
-        "customField_122": {
-            "id": "customField_122",
-            "type": "string"
-        },
-        "customField_123": {
-            "id": "customField_123",
-            "type": "string"
-        },
-        "customField_23": {
-            "id": "customField_23",
-            "type": "string"
-        },
-        "customField_24": {
-            "id": "customField_24",
-            "type": "string"
-        },
-        "customField_125": {
-            "id": "customField_125",
-            "type": "string"
-        },
-        "customField_121": {
-            "id": "customField_121",
-            "type": "string"
-        }  
+        }
     }
 }
