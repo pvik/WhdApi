@@ -25,25 +25,30 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    jacksonVersion = '2.9.0'
+    logbackVersion   = '1.2.3'
+}
+
 dependencies {
     compile (
             // json processing
-            'com.fasterxml.jackson.core:jackson-core:2.8.6',
-            'com.fasterxml.jackson.core:jackson-annotations:2.8.6',
-            'com.fasterxml.jackson.core:jackson-databind:2.8.6',
+            "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
+            "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
 
             // http transactions
             'com.mashape.unirest:unirest-java:1.4.9',
 
             // guava collections
-            'com.google.guava:guava:21.0',
+            'com.google.guava:guava:23.0',
 
-            'org.apache.commons:commons-lang3:3.5',
+            'org.apache.commons:commons-lang3:3.6',
 
             // logging
-            'org.slf4j:slf4j-api:1.7.22',
-            'ch.qos.logback:logback-core:1.1.10',
-            'ch.qos.logback:logback-classic:1.1.10')
+            'org.slf4j:slf4j-api:1.7.25',
+            "ch.qos.logback:logback-core:$logbackVersion",
+            "ch.qos.logback:logback-classic:$logbackVersion")
 
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
