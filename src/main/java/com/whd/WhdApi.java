@@ -14,22 +14,15 @@ import com.whd.autogen.StatusTypeDefinition;
 import com.whd.autogen.note.Jobticket;
 import com.whd.autogen.note.WhdNote;
 import com.whd.autogen.ticket.Location;
-import com.whd.autogen.ticket.TicketCustomField;
 import com.whd.autogen.ticket.WhdTicket;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
-
-import org.apache.commons.lang3.builder.MultilineRecursiveToStringStyle;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

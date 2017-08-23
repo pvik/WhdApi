@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "definitionId",
     "restValue"
 })
-public class TicketCustomField implements Serializable
+public class CustomField implements Serializable
 {
 
     @JsonProperty("type")
@@ -31,13 +31,13 @@ public class TicketCustomField implements Serializable
     private String restValue;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -6867983532954439448L;
+    private final static long serialVersionUID = -5705417979557833615L;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public TicketCustomField() {
+    public CustomField() {
     }
 
     /**
@@ -46,7 +46,7 @@ public class TicketCustomField implements Serializable
      * @param type
      * @param definitionId
      */
-    public TicketCustomField(String type, Integer definitionId, String restValue) {
+    public CustomField(String type, Integer definitionId, String restValue) {
         super();
         this.type = type;
         this.definitionId = definitionId;
@@ -108,10 +108,10 @@ public class TicketCustomField implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof TicketCustomField) == false) {
+        if ((other instanceof CustomField) == false) {
             return false;
         }
-        TicketCustomField rhs = ((TicketCustomField) other);
+        CustomField rhs = ((CustomField) other);
         return new EqualsBuilder().append(type, rhs.type).append(definitionId, rhs.definitionId).append(restValue, rhs.restValue).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 

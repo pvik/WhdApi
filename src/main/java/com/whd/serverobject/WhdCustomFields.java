@@ -6,14 +6,12 @@ import com.whd.WhdApi;
 import com.whd.WhdAuth;
 import com.whd.WhdException;
 import com.whd.autogen.CustomFieldDefinition;
-import com.whd.autogen.ticket.TicketCustomField;
+import com.whd.autogen.ticket.CustomField;
 import com.whd.autogen.ticket.WhdTicket;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -45,8 +43,8 @@ public class WhdCustomFields {
 
         log.debug("Field ID: {}", custFieldId);
 
-        // First check the List<TicketCustomField> for custom field
-        for (TicketCustomField cf : ticket.getTicketCustomFields()) {
+        // First check the List<CustomField> for custom field
+        for (CustomField cf : ticket.getCustomFields()) {
             if (cf.getDefinitionId() == custFieldId) {
                 return cf.getRestValue();
             }
@@ -66,12 +64,12 @@ public class WhdCustomFields {
 
             log.debug("Field ID: {}", custFieldId);
 
-            if (ticket.getTicketCustomFields() == null) {
-                ticket.setTicketCustomFields(new ArrayList<>());
+            if (ticket.getCustomFields() == null) {
+                ticket.setCustomFields(new ArrayList<>());
             }
 
             boolean exists = false;
-            for (TicketCustomField cField : ticket.getTicketCustomFields()) {
+            for (CustomField cField : ticket.getCustomFields()) {
                 if (cField.getDefinitionId() == custFieldId) {
                     cField.setRestValue(fieldVal);
                     exists = true;
@@ -79,11 +77,11 @@ public class WhdCustomFields {
             }
 
             if (!exists) {
-                TicketCustomField custField = new TicketCustomField();
+                CustomField custField = new CustomField();
                 custField.setDefinitionId(custFieldId);
                 custField.setRestValue(fieldVal);
 
-                ticket.getTicketCustomFields().add(custField);
+                ticket.getCustomFields().add(custField);
             }
 
         } catch ( SecurityException | IllegalArgumentException ex) {

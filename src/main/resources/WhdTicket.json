@@ -428,8 +428,8 @@
                 "$ref": "#/definitions/note"
             }
         },
-        "ticketCustomFields": {
-            "id": "ticketCustomFields",
+        "customFields": {
+            "id": "customFields",
             "type": "array",
             "items": {
                 "$ref": "#/definitions/customField"
