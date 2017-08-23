@@ -37,30 +37,22 @@ public class WhdCustomFields {
     public String getCustomField(WhdTicket ticket, String customFieldName) throws WhdException {
         log.debug("Getting Custom field for field name: {}", customFieldName);
 
-        try {
-            Integer custFieldId;
-            if (customFieldMap.inverse().containsKey(customFieldName.replace(" ", "")))
-                custFieldId = customFieldMap.inverse().get(customFieldName.replace(" ", ""));
-            else
-                throw new WhdException("Custom Field not present in WHD instance");
+        Integer custFieldId;
+        if (customFieldMap.inverse().containsKey(customFieldName.replace(" ", "")))
+            custFieldId = customFieldMap.inverse().get(customFieldName.replace(" ", ""));
+        else
+            throw new WhdException("Custom Field not present in WHD instance");
 
-            log.debug("Field ID: {}", custFieldId);
+        log.debug("Field ID: {}", custFieldId);
 
-            // First check the List<TicketCustomField> for custom field
-            for(TicketCustomField cf : ticket.getTicketCustomFields()){
-                if (cf.getDefinitionId() == custFieldId) {
-                    return cf.getRestValue();
-                }
+        // First check the List<TicketCustomField> for custom field
+        for (TicketCustomField cf : ticket.getTicketCustomFields()) {
+            if (cf.getDefinitionId() == custFieldId) {
+                return cf.getRestValue();
             }
-
-            Method getCustFieldMethod = WhdTicket.class.getMethod("getCustomField" + custFieldId);
-
-            return (String) getCustFieldMethod.invoke(ticket);
-
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            log.error(ExceptionUtils.getStackTrace(ex));
-            throw new WhdException(ex);
         }
+
+        return null; // return null if no custom field value is found in ticket
     }
 
     public void setCustomField(WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException {
@@ -78,11 +70,21 @@ public class WhdCustomFields {
                 ticket.setTicketCustomFields(new ArrayList<>());
             }
 
-            TicketCustomField custField = new TicketCustomField();
-            custField.setDefinitionId(custFieldId);
-            custField.setRestValue(fieldVal);
+            boolean exists = false;
+            for (TicketCustomField cField : ticket.getTicketCustomFields()) {
+                if (cField.getDefinitionId() == custFieldId) {
+                    cField.setRestValue(fieldVal);
+                    exists = true;
+                }
+            }
 
-            ticket.getTicketCustomFields().add(custField);
+            if (!exists) {
+                TicketCustomField custField = new TicketCustomField();
+                custField.setDefinitionId(custFieldId);
+                custField.setRestValue(fieldVal);
+
+                ticket.getTicketCustomFields().add(custField);
+            }
 
         } catch ( SecurityException | IllegalArgumentException ex) {
             log.error(ExceptionUtils.getStackTrace(ex));
