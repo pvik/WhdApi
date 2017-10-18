@@ -6,7 +6,7 @@ import com.whd.WhdException;
 import org.junit.Test;
 
 public class AuthUnitTest {
-    
+    /*
     @Test
     public void testAuthenticatePassword() throws WhdException {
         WhdAuth auth = new WhdAuth(TestDetails.whdUri, Util.WhdAuthType.PASSWORD, TestDetails.username, TestDetails.password);
@@ -40,6 +40,6 @@ public class AuthUnitTest {
         WhdAuth auth = new WhdAuth(TestDetails.whdUri, Util.WhdAuthType.PASSWORD, TestDetails.username, TestDetails.password+ "abc");
         auth.authenticate();
     }
-    
+    */
     
 }
