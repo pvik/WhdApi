@@ -54,7 +54,7 @@ public class WhdCustomFields {
     }
 
     public void setCustomField(WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException {
-        log.debug("Getting Custom field for field name: {}", customFieldName);
+        log.debug("Setting Custom field for field name: {} to {}", customFieldName, fieldVal);
         try {
             Integer custFieldId;
             if (customFieldMap.inverse().containsKey(customFieldName.replace(" ", "")))
