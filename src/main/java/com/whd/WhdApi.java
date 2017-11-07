@@ -174,7 +174,7 @@ public class WhdApi {
         }
     }
 
-    public static void addTicketAttachment(WhdAuth auth, Integer ticketId, String filePath) throws WhdException {
+    public static Integer addAttachment(WhdAuth auth, Integer ticketId, String filePath) throws WhdException {
         try {
             HttpResponse<JsonNode> jsonResponse = Unirest.get(auth.getWhdUrl())
                     .header("accept", "application/json")
@@ -205,8 +205,11 @@ public class WhdApi {
                     .field("file", new File(filePath))
                     .asJson();
 
-            log.debug("Response for uploading attachment: " +
-                    jsonResponseFileUpload.getBody());
+            log.debug("Response for uploading attachment: {}", jsonResponseFileUpload.getBody());
+            Integer attId = Integer.parseInt(jsonResponseFileUpload.getBody().getObject().getString("id"));
+            log.debug("Attachment ID created: {}", attId);
+
+            return attId;
         } catch (UnirestException e) {
             throw new WhdException("Error uploading attachment to Ticket: " + e.getMessage(), e);
         }
