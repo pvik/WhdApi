@@ -13,6 +13,7 @@ import com.whd.autogen.RequestTypeDefinition;
 import com.whd.autogen.StatusTypeDefinition;
 import com.whd.autogen.note.Jobticket;
 import com.whd.autogen.note.WhdNote;
+import com.whd.autogen.note.response.WhdNoteResponse;
 import com.whd.autogen.ticket.Location;
 import com.whd.autogen.ticket.WhdTicket;
 
@@ -211,7 +212,7 @@ public class WhdApi {
         }
     }
 
-    public static void addNote(WhdAuth auth, Integer ticketId, String noteText) throws WhdException {
+    public static Integer addNote(WhdAuth auth, Integer ticketId, String noteText) throws WhdException {
         try {
             WhdNote note = new WhdNote();
             Jobticket jt = new Jobticket();
@@ -232,9 +233,16 @@ public class WhdApi {
                     .body(jsonNoteStream)
                     .asString();
 
+            //Util.jsonMapper.reader().readValue(resp);
+
             Util.processResponseForException(resp);
 
             log.debug("Response for creating Note {}", resp.getBody());
+
+            WhdNoteResponse jsonResponse = Util.jsonMapper.readValue(resp.getBody(), WhdNoteResponse.class);
+
+            return jsonResponse.getId();
+
         } catch (UnirestException e) {
             throw new WhdException("Error getting Ticket: " + e.getMessage(), e);
         } catch (IOException e) {
