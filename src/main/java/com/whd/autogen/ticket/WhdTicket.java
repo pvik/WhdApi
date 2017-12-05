@@ -54,6 +54,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "isPublic",
     "canEscalate",
     "notes",
+    "ticketCustomFields",
     "customFields",
     "enabledStatusTypes",
     "attachments"
@@ -133,6 +134,8 @@ public class WhdTicket implements Serializable
     private Boolean canEscalate;
     @JsonProperty("notes")
     private List<Note> notes = new ArrayList<Note>();
+    @JsonProperty("ticketCustomFields")
+    private List<TicketCustomField> ticketCustomFields = new ArrayList<TicketCustomField>();
     @JsonProperty("customFields")
     private List<CustomField> customFields = new ArrayList<CustomField>();
     @JsonProperty("enabledStatusTypes")
@@ -141,7 +144,7 @@ public class WhdTicket implements Serializable
     private List<Attachment> attachments = new ArrayList<Attachment>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 8980130040302855637L;
+    private final static long serialVersionUID = -3607349926540335515L;
 
     /**
      * No args constructor for use in serialization
@@ -181,6 +184,7 @@ public class WhdTicket implements Serializable
      * @param ccAddressesForTech
      * @param emailClient
      * @param emailGroupManager
+     * @param ticketCustomFields
      * @param bccAddresses
      * @param emailTechGroupLevel
      * @param room
@@ -192,7 +196,7 @@ public class WhdTicket implements Serializable
      * @param techId
      * @param prioritytype
      */
-    public WhdTicket(Integer id, String type, String bccAddresses, String ccAddressesForTech, Integer departmentId, String lastUpdated, Integer locationId, Integer priorityTypeId, String room, Integer statusTypeId, String subject, ClientReporter clientReporter, ClientTech clientTech, Location location, Prioritytype prioritytype, Problemtype problemtype, Statustype statustype, TechGroupLevel techGroupLevel, String detail, String reportDateUtc, String displayClient, Boolean emailClient, Boolean emailTech, Boolean emailTechGroupLevel, Boolean emailGroupManager, Boolean emailCc, Boolean emailBcc, Boolean needsApproval, Boolean ticketEditable, Integer techId, String levelNumber, Integer clientId, Boolean flaggedByTech, Boolean isPublic, Boolean canEscalate, List<Note> notes, List<CustomField> customFields, List<Statustype> enabledStatusTypes, List<Attachment> attachments) {
+    public WhdTicket(Integer id, String type, String bccAddresses, String ccAddressesForTech, Integer departmentId, String lastUpdated, Integer locationId, Integer priorityTypeId, String room, Integer statusTypeId, String subject, ClientReporter clientReporter, ClientTech clientTech, Location location, Prioritytype prioritytype, Problemtype problemtype, Statustype statustype, TechGroupLevel techGroupLevel, String detail, String reportDateUtc, String displayClient, Boolean emailClient, Boolean emailTech, Boolean emailTechGroupLevel, Boolean emailGroupManager, Boolean emailCc, Boolean emailBcc, Boolean needsApproval, Boolean ticketEditable, Integer techId, String levelNumber, Integer clientId, Boolean flaggedByTech, Boolean isPublic, Boolean canEscalate, List<Note> notes, List<TicketCustomField> ticketCustomFields, List<CustomField> customFields, List<Statustype> enabledStatusTypes, List<Attachment> attachments) {
         super();
         this.id = id;
         this.type = type;
@@ -230,6 +234,7 @@ public class WhdTicket implements Serializable
         this.isPublic = isPublic;
         this.canEscalate = canEscalate;
         this.notes = notes;
+        this.ticketCustomFields = ticketCustomFields;
         this.customFields = customFields;
         this.enabledStatusTypes = enabledStatusTypes;
         this.attachments = attachments;
@@ -595,6 +600,16 @@ public class WhdTicket implements Serializable
         this.notes = notes;
     }
 
+    @JsonProperty("ticketCustomFields")
+    public List<TicketCustomField> getTicketCustomFields() {
+        return ticketCustomFields;
+    }
+
+    @JsonProperty("ticketCustomFields")
+    public void setTicketCustomFields(List<TicketCustomField> ticketCustomFields) {
+        this.ticketCustomFields = ticketCustomFields;
+    }
+
     @JsonProperty("customFields")
     public List<CustomField> getCustomFields() {
         return customFields;
@@ -642,7 +657,7 @@ public class WhdTicket implements Serializable
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(type).append(bccAddresses).append(ccAddressesForTech).append(departmentId).append(lastUpdated).append(locationId).append(priorityTypeId).append(room).append(statusTypeId).append(subject).append(clientReporter).append(clientTech).append(location).append(prioritytype).append(problemtype).append(statustype).append(techGroupLevel).append(detail).append(reportDateUtc).append(displayClient).append(emailClient).append(emailTech).append(emailTechGroupLevel).append(emailGroupManager).append(emailCc).append(emailBcc).append(needsApproval).append(ticketEditable).append(techId).append(levelNumber).append(clientId).append(flaggedByTech).append(isPublic).append(canEscalate).append(notes).append(customFields).append(enabledStatusTypes).append(attachments).append(additionalProperties).toHashCode();
+        return new HashCodeBuilder().append(id).append(type).append(bccAddresses).append(ccAddressesForTech).append(departmentId).append(lastUpdated).append(locationId).append(priorityTypeId).append(room).append(statusTypeId).append(subject).append(clientReporter).append(clientTech).append(location).append(prioritytype).append(problemtype).append(statustype).append(techGroupLevel).append(detail).append(reportDateUtc).append(displayClient).append(emailClient).append(emailTech).append(emailTechGroupLevel).append(emailGroupManager).append(emailCc).append(emailBcc).append(needsApproval).append(ticketEditable).append(techId).append(levelNumber).append(clientId).append(flaggedByTech).append(isPublic).append(canEscalate).append(notes).append(ticketCustomFields).append(customFields).append(enabledStatusTypes).append(attachments).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -654,7 +669,7 @@ public class WhdTicket implements Serializable
             return false;
         }
         WhdTicket rhs = ((WhdTicket) other);
-        return new EqualsBuilder().append(id, rhs.id).append(type, rhs.type).append(bccAddresses, rhs.bccAddresses).append(ccAddressesForTech, rhs.ccAddressesForTech).append(departmentId, rhs.departmentId).append(lastUpdated, rhs.lastUpdated).append(locationId, rhs.locationId).append(priorityTypeId, rhs.priorityTypeId).append(room, rhs.room).append(statusTypeId, rhs.statusTypeId).append(subject, rhs.subject).append(clientReporter, rhs.clientReporter).append(clientTech, rhs.clientTech).append(location, rhs.location).append(prioritytype, rhs.prioritytype).append(problemtype, rhs.problemtype).append(statustype, rhs.statustype).append(techGroupLevel, rhs.techGroupLevel).append(detail, rhs.detail).append(reportDateUtc, rhs.reportDateUtc).append(displayClient, rhs.displayClient).append(emailClient, rhs.emailClient).append(emailTech, rhs.emailTech).append(emailTechGroupLevel, rhs.emailTechGroupLevel).append(emailGroupManager, rhs.emailGroupManager).append(emailCc, rhs.emailCc).append(emailBcc, rhs.emailBcc).append(needsApproval, rhs.needsApproval).append(ticketEditable, rhs.ticketEditable).append(techId, rhs.techId).append(levelNumber, rhs.levelNumber).append(clientId, rhs.clientId).append(flaggedByTech, rhs.flaggedByTech).append(isPublic, rhs.isPublic).append(canEscalate, rhs.canEscalate).append(notes, rhs.notes).append(customFields, rhs.customFields).append(enabledStatusTypes, rhs.enabledStatusTypes).append(attachments, rhs.attachments).append(additionalProperties, rhs.additionalProperties).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(type, rhs.type).append(bccAddresses, rhs.bccAddresses).append(ccAddressesForTech, rhs.ccAddressesForTech).append(departmentId, rhs.departmentId).append(lastUpdated, rhs.lastUpdated).append(locationId, rhs.locationId).append(priorityTypeId, rhs.priorityTypeId).append(room, rhs.room).append(statusTypeId, rhs.statusTypeId).append(subject, rhs.subject).append(clientReporter, rhs.clientReporter).append(clientTech, rhs.clientTech).append(location, rhs.location).append(prioritytype, rhs.prioritytype).append(problemtype, rhs.problemtype).append(statustype, rhs.statustype).append(techGroupLevel, rhs.techGroupLevel).append(detail, rhs.detail).append(reportDateUtc, rhs.reportDateUtc).append(displayClient, rhs.displayClient).append(emailClient, rhs.emailClient).append(emailTech, rhs.emailTech).append(emailTechGroupLevel, rhs.emailTechGroupLevel).append(emailGroupManager, rhs.emailGroupManager).append(emailCc, rhs.emailCc).append(emailBcc, rhs.emailBcc).append(needsApproval, rhs.needsApproval).append(ticketEditable, rhs.ticketEditable).append(techId, rhs.techId).append(levelNumber, rhs.levelNumber).append(clientId, rhs.clientId).append(flaggedByTech, rhs.flaggedByTech).append(isPublic, rhs.isPublic).append(canEscalate, rhs.canEscalate).append(notes, rhs.notes).append(ticketCustomFields, rhs.ticketCustomFields).append(customFields, rhs.customFields).append(enabledStatusTypes, rhs.enabledStatusTypes).append(attachments, rhs.attachments).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }

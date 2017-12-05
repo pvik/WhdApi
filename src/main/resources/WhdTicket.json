@@ -61,6 +61,23 @@
                 }
             }
         },
+        "ticketCustomField": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "id": "type",
+                    "type": "string"
+                },
+                "definitionId": {
+                    "id": "definitionId",
+                    "type": "integer"
+                },
+                "restValue": {
+                    "id": "restValue",
+                    "type": "string"
+                }
+            }
+        },
         "customField": {
             "type": "object",
             "properties": {
@@ -428,12 +445,19 @@
                 "$ref": "#/definitions/note"
             }
         },
+        "ticketCustomFields": {
+            "id": "ticketCustomFields",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/ticketCustomField"
+                }
+        },
         "customFields": {
             "id": "customFields",
             "type": "array",
             "items": {
                 "$ref": "#/definitions/customField"
-                }
+            }
         },
         "enabledStatusTypes": {
             "id": "enabledStatusTypes",

@@ -7,6 +7,7 @@ import com.whd.WhdAuth;
 import com.whd.WhdException;
 import com.whd.autogen.CustomFieldDefinition;
 import com.whd.autogen.ticket.CustomField;
+import com.whd.autogen.ticket.TicketCustomField;
 import com.whd.autogen.ticket.WhdTicket;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class WhdCustomFields {
         customFieldMap = mapBuilder.build();
     }
 
-    public String getCustomField(WhdTicket ticket, String customFieldName) throws WhdException {
+    public String getCustomField(final WhdTicket ticket, String customFieldName) throws WhdException {
         log.debug("Getting Custom field for field name: {}", customFieldName);
 
         Integer custFieldId;
@@ -43,8 +44,8 @@ public class WhdCustomFields {
 
         log.debug("Field ID: {}", custFieldId);
 
-        // First check the List<CustomField> for custom field
-        for (CustomField cf : ticket.getCustomFields()) {
+        // First check the List<TicketCustomField> for custom field
+        for (TicketCustomField cf : ticket.getTicketCustomFields()) {
             if (cf.getDefinitionId() == custFieldId) {
                 return cf.getRestValue();
             }
@@ -53,7 +54,7 @@ public class WhdCustomFields {
         return null; // return null if no custom field value is found in ticket
     }
 
-    public void setCustomField(WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException {
+    public void setCustomField(final WhdTicket ticket, String customFieldName, String fieldVal) throws WhdException {
         log.debug("Setting Custom field for field name: {} to {}", customFieldName, fieldVal);
         try {
             Integer custFieldId;
@@ -64,12 +65,13 @@ public class WhdCustomFields {
 
             log.debug("Field ID: {}", custFieldId);
 
-            if (ticket.getCustomFields() == null) {
-                ticket.setCustomFields(new ArrayList<>());
+            if (ticket.getTicketCustomFields() == null) {
+                log.trace("Creating custom field array");
+                ticket.setTicketCustomFields(new ArrayList<>());
             }
 
             boolean exists = false;
-            for (CustomField cField : ticket.getCustomFields()) {
+            for (TicketCustomField cField : ticket.getTicketCustomFields()) {
                 if (cField.getDefinitionId() == custFieldId) {
                     cField.setRestValue(fieldVal);
                     exists = true;
@@ -77,11 +79,11 @@ public class WhdCustomFields {
             }
 
             if (!exists) {
-                CustomField custField = new CustomField();
+                TicketCustomField custField = new TicketCustomField();
                 custField.setDefinitionId(custFieldId);
                 custField.setRestValue(fieldVal);
 
-                ticket.getCustomFields().add(custField);
+                ticket.getTicketCustomFields().add(custField);
             }
 
         } catch ( SecurityException | IllegalArgumentException ex) {

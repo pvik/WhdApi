@@ -14,7 +14,9 @@ import com.whd.autogen.StatusTypeDefinition;
 import com.whd.autogen.note.Jobticket;
 import com.whd.autogen.note.WhdNote;
 import com.whd.autogen.note.response.WhdNoteResponse;
+import com.whd.autogen.ticket.CustomField;
 import com.whd.autogen.ticket.Location;
+import com.whd.autogen.ticket.TicketCustomField;
 import com.whd.autogen.ticket.WhdTicket;
 
 import java.io.File;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,23 @@ public class WhdApi {
     private static final Logger log = LoggerFactory.getLogger(WhdApi.class);
 
     public static WhdTicket createUpdateTicket(WhdAuth auth, WhdTicket ticket) throws WhdException {
+        log.trace("moving ticketCustomFields to customFields");
+        if(ticket.getTicketCustomFields() != null && ticket.getTicketCustomFields().size() > 0) {
+            ticket.setCustomFields(new ArrayList<>());
+            for (TicketCustomField tcf : ticket.getTicketCustomFields()) {
+                if(tcf.getRestValue() != null) {
+                    CustomField cf = new CustomField();
+                    cf.setDefinitionId(tcf.getDefinitionId());
+                    cf.setRestValue(tcf.getRestValue());
+                    cf.setType(tcf.getType());
+                    ticket.getCustomFields().add(cf);
+                }
+            }
+            ticket.setTicketCustomFields(null);
+        }
+
+        log.trace("Ticket: {}", ReflectionToStringBuilder.toString(ticket));
+
         log.debug("createUpdateTicket(WhdTicket)");
         if (ticket.getId() == null) {
             return createTicket(auth, ticket);
@@ -80,6 +100,8 @@ public class WhdApi {
 
         try {
             String jsonTicketStream = Util.jsonMapper.writer().without(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(ticket);
+
+            log.trace("Json stream: {}", jsonTicketStream);
 
             HttpRequestWithBody httpRequest = Unirest.put(auth.getWhdUrl() + "/{ticket_id}")
                     .header("accept", "application/json")
