@@ -36,7 +36,7 @@ public class WhdLocations {
 
         for (String locPrefix : locationPrefixes) {
             logger.trace("getting locations with prefix: {}", locPrefix);
-            for(LocationDefinition loc : WhdApi.searchLocations(auth, "(locationName like '" + locPrefix + "*')")) {
+            for (LocationDefinition loc : WhdApi.searchLocations(auth, "(locationName like '" + locPrefix + "*') and ((deleted = null) or (deleted = 0))")) {
                 mapBuilder.put(loc.getId(), loc.getLocationName());
             }
         }
