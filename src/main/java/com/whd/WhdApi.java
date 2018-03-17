@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WhdApi {
+
     private static final Logger log = LoggerFactory.getLogger(WhdApi.class);
 
     public static WhdTicket createUpdateTicket(WhdAuth auth, WhdTicket ticket) throws WhdException {
@@ -198,14 +199,31 @@ public class WhdApi {
 
     public static Integer addAttachment(WhdAuth auth, Integer ticketId, String filePath) throws WhdException {
         try {
+
+
+            HttpResponse<String> strResponse = Unirest.get(auth.getWhdUrl())
+                    .header("accept", "application/json")
+                    .header("Set-Cookie", "http-only")
+                    .routeParam("resource_type", "Session")
+                    .queryString(auth.generateAuthUrlParams())
+                    .asString();
+
+            log.debug("whdUrl: {}", auth.getWhdUrl());
+            log.debug("authUrlParam: {}", auth.generateAuthUrlParams());
+            log.debug("httpResponse headers: {}", strResponse.getHeaders());
+            log.debug("httpResponse status: {}", strResponse.getStatus());
+            log.debug("httpResponse statusText: {}", strResponse.getStatusText());
+            log.debug("httpResponse rawbody: {}", strResponse.getRawBody());
+            log.debug("httpResponse body: {}", strResponse.getBody());
+
+            String cookies =  strResponse.getHeaders().get("Set-Cookie").stream()
+                    .collect(Collectors.joining("; "));
+
             HttpResponse<JsonNode> jsonResponse = Unirest.get(auth.getWhdUrl())
                     .header("accept", "application/json")
                     .routeParam("resource_type", "Session")
                     .queryString(auth.generateAuthUrlParams())
                     .asJson();
-
-            String cookies =  jsonResponse.getHeaders().get("Set-Cookie").stream()
-                    .collect(Collectors.joining("; "));
 
             String wosid;
             try {
@@ -228,12 +246,15 @@ public class WhdApi {
                     .asJson();
 
             log.debug("Response for uploading attachment: {}", jsonResponseFileUpload.getBody());
-            Integer attId = Integer.parseInt(jsonResponseFileUpload.getBody().getObject().getString("id"));
+            //Integer attId = Integer.parseInt(jsonResponseFileUpload.getBody().getObject().getString("id"));
+            Integer attId = jsonResponseFileUpload.getBody().getObject().getInt("id");
             log.debug("Attachment ID created: {}", attId);
 
             return attId;
         } catch (UnirestException e) {
             throw new WhdException("Error uploading attachment to Ticket: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new WhdException("Unknow Exception uploading attachment to Ticket: " + e.getMessage(), e);
         }
     }
 
