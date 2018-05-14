@@ -10,8 +10,10 @@ import com.whd.autogen.RequestTypeDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by vikramp on 2/12/17.
@@ -88,4 +90,9 @@ public class WhdRequestType {
         return getSecondTierClassification(getCompleteRequestTypeLabel(f));
     }
 
+    public String getRequestTypeNameTopTwoTiers(Integer id) {
+        return Arrays.asList(getRequestTypeName(id).split("/")).stream()
+                .limit(2)
+                .collect(Collectors.joining("/"));
+    }
 }
