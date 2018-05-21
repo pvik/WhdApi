@@ -6,7 +6,6 @@ import com.whd.WhdApi;
 import com.whd.WhdAuth;
 import com.whd.WhdException;
 import com.whd.autogen.CustomFieldDefinition;
-import com.whd.autogen.ticket.CustomField;
 import com.whd.autogen.ticket.TicketCustomField;
 import com.whd.autogen.ticket.WhdTicket;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -14,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Created by vikramp on 2/13/17.
@@ -43,6 +43,17 @@ public class WhdCustomFields {
             throw new WhdException("Custom Field not present in WHD instance");
 
         log.debug("Field ID: {}", custFieldId);
+
+        if (ticket.getTicketCustomFields() == null) {
+            if (ticket.getCustomFields() != null) {
+                ticket.setTicketCustomFields(ticket.getCustomFields()
+                        .stream()
+                        .map(e -> new TicketCustomField(e.getType(),
+                                e.getDefinitionId(),
+                                e.getRestValue()))
+                        .collect(Collectors.toList()));
+            }
+        }
 
         // First check the List<TicketCustomField> for custom field
         for (TicketCustomField cf : ticket.getTicketCustomFields()) {
