@@ -6,11 +6,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequestWithBody;
-import com.whd.autogen.CustomFieldDefinition;
-import com.whd.autogen.LocationDefinition;
-import com.whd.autogen.PriorityTypeDefinition;
-import com.whd.autogen.RequestTypeDefinition;
-import com.whd.autogen.StatusTypeDefinition;
+import com.whd.autogen.*;
 import com.whd.autogen.note.Jobticket;
 import com.whd.autogen.note.WhdNote;
 import com.whd.autogen.note.response.WhdNoteResponse;
@@ -18,6 +14,11 @@ import com.whd.autogen.ticket.CustomField;
 import com.whd.autogen.ticket.Location;
 import com.whd.autogen.ticket.TicketCustomField;
 import com.whd.autogen.ticket.WhdTicket;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.http.client.CookieStore;
+import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class WhdApi {
 
@@ -200,6 +196,10 @@ public class WhdApi {
     public static Integer addAttachment(WhdAuth auth, Integer ticketId, String filePath) throws WhdException {
         try {
 
+            CookieStore cookieStore = new org.apache.http.impl.client.BasicCookieStore();
+            Unirest.setHttpClient(org.apache.http.impl.client.HttpClients.custom()
+                    .setDefaultCookieStore(cookieStore)
+                    .build());
 
             HttpResponse<String> strResponse = Unirest.get(auth.getWhdUrl())
                     .header("accept", "application/json")
