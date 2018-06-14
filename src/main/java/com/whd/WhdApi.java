@@ -1,6 +1,7 @@
 package com.whd;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.io.ByteStreams;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -22,10 +23,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
 public class WhdApi {
 
@@ -180,15 +184,16 @@ public class WhdApi {
      */
     public static byte[] getAttachment(WhdAuth auth, Integer id) throws WhdException {
         try {
-            HttpResponse<String> resp = Unirest.get(auth.getWhdUrl() + "/{attachment_id}")
+            HttpResponse<InputStream> resp = Unirest.get(auth.getWhdUrl() + "/{attachment_id}")
                     .header("accept", "application/octet")
                     .routeParam("resource_type", "TicketAttachments")
                     .routeParam("attachment_id", String.format("%d", id))
                     .queryString(auth.generateAuthUrlParams())
-                    .asString();
+                    .asBinary();
+                    //.asString();
 
-            return resp.getBody().getBytes();
-        } catch (UnirestException e) {
+            return ByteStreams.toByteArray(resp.getBody()); //resp.getBody().getBytes();
+        } catch (UnirestException | IOException e) {
             throw new WhdException("Error getting Ticket: " + e.getMessage(), e);
         }
     }
@@ -201,6 +206,9 @@ public class WhdApi {
                     .setDefaultCookieStore(cookieStore)
                     .build());
 
+            log.debug("whdUrl: {}", auth.getWhdUrl());
+            log.debug("authUrlParam: {}", auth.generateAuthUrlParams());
+
             HttpResponse<String> strResponse = Unirest.get(auth.getWhdUrl())
                     .header("accept", "application/json")
                     .header("Set-Cookie", "http-only")
@@ -208,8 +216,6 @@ public class WhdApi {
                     .queryString(auth.generateAuthUrlParams())
                     .asString();
 
-            log.debug("whdUrl: {}", auth.getWhdUrl());
-            log.debug("authUrlParam: {}", auth.generateAuthUrlParams());
             log.debug("httpResponse headers: {}", strResponse.getHeaders());
             log.debug("httpResponse status: {}", strResponse.getStatus());
             log.debug("httpResponse statusText: {}", strResponse.getStatusText());
@@ -252,9 +258,11 @@ public class WhdApi {
 
             return attId;
         } catch (UnirestException e) {
-            throw new WhdException("Error uploading attachment to Ticket: " + e.getMessage(), e);
+            throw new WhdException("Error uploading attachment to Ticket: " + getStackTrace(e) + "\n"
+                    + e.getMessage(), e);
         } catch (Exception e) {
-            throw new WhdException("Unknow Exception uploading attachment to Ticket: " + e.getMessage(), e);
+            throw new WhdException("Unknow Exception uploading attachment to Ticket: " + getStackTrace(e) + "\n"
+                    + e.getMessage(), e);
         }
     }
 
