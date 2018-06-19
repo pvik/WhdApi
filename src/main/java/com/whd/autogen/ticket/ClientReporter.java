@@ -2,9 +2,7 @@
 package com.whd.autogen.ticket;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -46,7 +44,7 @@ public class ClientReporter implements Serializable
     @JsonProperty("lastName")
     private String lastName;
     @JsonProperty("notes")
-    private List<Note> notes = new ArrayList<Note>();
+    private String notes;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("phone2")
@@ -63,7 +61,7 @@ public class ClientReporter implements Serializable
     private String username;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 3783747255337302776L;
+    private final static long serialVersionUID = 5554412102378027933L;
 
     /**
      * No args constructor for use in serialization
@@ -88,7 +86,7 @@ public class ClientReporter implements Serializable
      * @param email
      * @param username
      */
-    public ClientReporter(Integer id, String type, String email, String firstName, String lastName, List<Note> notes, String phone, String phone2, String department, Location location, String room, String companyName, String username) {
+    public ClientReporter(Integer id, String type, String email, String firstName, String lastName, String notes, String phone, String phone2, String department, Location location, String room, String companyName, String username) {
         super();
         this.id = id;
         this.type = type;
@@ -156,12 +154,12 @@ public class ClientReporter implements Serializable
     }
 
     @JsonProperty("notes")
-    public List<Note> getNotes() {
+    public String getNotes() {
         return notes;
     }
 
     @JsonProperty("notes")
-    public void setNotes(List<Note> notes) {
+    public void setNotes(String notes) {
         this.notes = notes;
     }
 

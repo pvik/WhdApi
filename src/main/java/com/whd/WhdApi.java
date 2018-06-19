@@ -503,30 +503,50 @@ public class WhdApi {
         return defs;
     }
 
-    public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier) throws WhdException {
+    public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier, int limit, int page) throws WhdException {
         List<LocationDefinition> defs = null;
 
         try {
+            log.trace("Getting locations: {} ", qualifier);
+            log.trace("Page: {} | Limit: {}", page, limit);
+
             HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
                     .header("accept", "application/json")
                     .routeParam("resource_type", "Locations")
                     .queryString(auth.generateAuthUrlParams())
                     .queryString("qualifier", qualifier)
+                    .queryString("limit", limit)
+                    .queryString("page", page)
                     .asString();
 
             Util.processResponseForException(resp);
 
-
             defs = Util.jsonMapper.readValue(resp.getBody(),
                     Util.jsonMapper.getTypeFactory().constructCollectionType(List.class, LocationDefinition.class));
 
-            log.debug("Retreived Locations");
+            log.trace("Retreived Locations");
         } catch (UnirestException e) {
             throw new WhdException("Error getting Request Type Definitions: " + e.getMessage(), e);
         } catch (IOException e) {
             throw Util.processJsonMapperIOException(e);
         }
         return defs;
+    }
+
+    public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier) throws WhdException {
+        final int LIMIT = 500;
+
+        List<LocationDefinition> locations = new ArrayList<>();
+
+        List<LocationDefinition> locDefs;
+        int page = 1;
+        do {
+            locDefs = searchLocations(auth, qualifier, LIMIT, page);
+            locations.addAll(locDefs);
+            page++;
+        } while (locDefs.size() == LIMIT);
+
+        return locations;
     }
 
     public static List<LocationDefinition> searchLocations(WhdAuth auth, String qualifier, boolean includeDeleted) throws WhdException {

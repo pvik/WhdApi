@@ -257,10 +257,7 @@
                 },
                 "notes": {
                     "id": "notes",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/note"
-                    }
+                    "type": "string"
                 },
                 "phone": {
                     "id": "phone",
