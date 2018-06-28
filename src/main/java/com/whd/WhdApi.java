@@ -454,7 +454,7 @@ public class WhdApi {
         List<LocationDefinition> defs = null;
 
         try {
-            Unirest.setTimeouts(0,0);
+            Unirest.setTimeouts(30000, 180000);
 
             HttpResponse<String> resp = Unirest.get(auth.getWhdUrl())
                     .header("accept", "application/json")
