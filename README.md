@@ -4,7 +4,7 @@ DISCLAIMER: I have no affiliation to SolarWinds© and this is a third party API.
 
 A java wrapper around the Web Help Desk REST API. Allows you to interact with the Solarwinds Web Help Desk REST API from you java applications seamlessly.
 
-The API is based on the [SolarWinds Web Help Desk REST API documentation for 12.2.0](http://www.solarwinds.com/documentation/webhelpdesk/docs/whd_api_12.2.0/web help desk api.html).
+The API is based on the SolarWinds Web Help Desk REST API documentation for 12.2.0 found [here](http://www.solarwinds.com/documentation/webhelpdesk/docs/whd_api_12.2.0/web%20help%20desk%20api.html).
 
 Supported Features:
 * Authenticate (Username/Password;API Key;Session Key)
