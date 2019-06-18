@@ -51,6 +51,10 @@ public class WhdApi {
             ticket.setTicketCustomFields(null);
         }
 
+        // remove fields
+        ticket.setEnabledStatusTypes(null);
+        ticket.setLastUpdated(null);
+
         log.trace("Ticket: {}", ReflectionToStringBuilder.toString(ticket));
 
         log.debug("createUpdateTicket(WhdTicket)");
