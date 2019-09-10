@@ -76,6 +76,15 @@ public class WhdRequestType {
         } else return null;
     }
 
+    public String getThirdTierClassification(String problemTypeStr) {
+        if (problemTypeStr.contains("/")) {
+            String [] pts = problemTypeStr.split("/");
+            if (pts.length >= 2) {
+                return pts[2];
+            } else return null;
+        } else return null;
+    }
+
     private String getCompleteRequestTypeLabel(RequestTypeDefinition f) {
         if (f.getParentId() == null) {
             return f.getProblemTypeName();
