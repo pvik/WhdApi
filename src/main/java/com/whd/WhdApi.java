@@ -246,12 +246,16 @@ public class WhdApi {
             cookies = cookies + "; wosid="+wosid;
 
             HttpResponse<JsonNode> jsonResponseFileUpload = Unirest.post(auth.getWhdUri()+
-                    "/helpdesk/attachment/upload?type=jobTicket&entityId={ticket_id}")
+                    "/helpdesk/attachment/upload?type=jobTicket&&returnFields=id&entityId={ticket_id}&sessionKey={session_key}")
+                    .header("User-Agent", "Java/1.7.0_55")
                     .header("accept", "application/json")
                     .header("Cookie", cookies)
+                    .header("Cache-Control", "no-cache")
                     .header("Connection", "keep-alive")
                     .header("Pragma", "no-cache")
+                    .header("Accept", "text/html,image/gif,image/jpeg,*;q=.2,*/*;q=.2")
                     .routeParam("ticket_id", ticketId.toString())
+                    .routeParam("session_key", wosid)
                     .field("file", new File(filePath))
                     .asJson();
 
